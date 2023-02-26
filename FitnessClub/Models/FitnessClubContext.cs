@@ -150,10 +150,10 @@ public partial class FitnessClubContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Rating).HasColumnName("rating");
-            entity.Property(e => e.Review1).HasColumnName("review");
             entity.Property(e => e.ReviewDate)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnName("review_date");
+            entity.Property(e => e.ReviewText).HasColumnName("reviewText");
             entity.Property(e => e.SubscriptionId).HasColumnName("subscription_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 

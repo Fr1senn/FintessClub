@@ -7,7 +7,7 @@ public partial class Review
 {
     public int Id { get; set; }
 
-    public string? Review1 { get; set; }
+    public string? ReviewText { get; set; }
 
     public DateOnly ReviewDate { get; set; }
 
