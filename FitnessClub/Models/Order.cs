@@ -11,7 +11,7 @@ public partial class Order
 
     public DateOnly PurchaseDate { get; set; }
 
-    public int? UseriD { get; set; }
+    public int? UserId { get; set; }
 
     public int? SubscriptionId { get; set; }
 

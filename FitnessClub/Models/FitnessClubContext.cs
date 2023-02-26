@@ -77,12 +77,14 @@ public partial class FitnessClubContext : DbContext
             entity.ToTable("discounts");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DiscountPercentage).HasColumnName("discount_percentage");
+            entity.Property(e => e.DiscountPercentage)
+                .HasPrecision(5, 2)
+                .HasColumnName("discount_percentage");
             entity.Property(e => e.IsActive).HasColumnName("is_active");
-            entity.Property(e => e.SubscriptioniD).HasColumnName("subscriptioni_d");
+            entity.Property(e => e.SubscriptionId).HasColumnName("subscription_id");
 
             entity.HasOne(d => d.Subscription).WithMany(p => p.Discounts)
-                .HasForeignKey(d => d.SubscriptioniD)
+                .HasForeignKey(d => d.SubscriptionId)
                 .HasConstraintName("discounts_subscriptioni_d_fkey");
         });
 
@@ -127,7 +129,7 @@ public partial class FitnessClubContext : DbContext
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnName("purchase_date");
             entity.Property(e => e.SubscriptionId).HasColumnName("subscription_id");
-            entity.Property(e => e.UseriD).HasColumnName("useri_d");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.Duration).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.DurationId)
@@ -138,7 +140,7 @@ public partial class FitnessClubContext : DbContext
                 .HasConstraintName("orders_subscription_id_fkey");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.UseriD)
+                .HasForeignKey(d => d.UserId)
                 .HasConstraintName("orders_useri_d_fkey");
         });
 
@@ -242,7 +244,9 @@ public partial class FitnessClubContext : DbContext
             entity.Property(e => e.RegistrationDate)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnName("registration_date");
-            entity.Property(e => e.RoleId).HasColumnName("role_id");
+            entity.Property(e => e.RoleId)
+                .HasDefaultValueSql("1")
+                .HasColumnName("role_id");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
