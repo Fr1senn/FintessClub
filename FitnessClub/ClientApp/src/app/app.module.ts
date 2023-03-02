@@ -6,11 +6,13 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavigationBarComponent } from "./components/navigation-bar/navigation-bar.component";
+import { FooterBarComponent } from "./components/footer-bar/footer-bar.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavigationBarComponent
+    NavigationBarComponent,
+    FooterBarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
