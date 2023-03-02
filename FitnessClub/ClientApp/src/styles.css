@@ -8,6 +8,10 @@
   --background-color: #f8efec;
 }
 
+body {
+  background-color: var(--background-color);
+}
+
 a:hover {
   display: inline-block;
   color: black;
