@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+a:hover {
+  display: inline-block;
+  color: black;
+  cursor: pointer;
+  transform: scale(1.25);
+  transition: .3s;
+}
