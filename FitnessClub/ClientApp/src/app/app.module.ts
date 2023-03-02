@@ -5,10 +5,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
+import { NavigationBarComponent } from "./components/navigation-bar/navigation-bar.component";
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavigationBarComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
