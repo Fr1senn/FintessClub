@@ -2,7 +2,7 @@
   id: number,
   review?: string,
   reviewDate: Date,
-  rating: number,
+  estimation: number,
   userId?: number,
   subscriptionId?: number
 }

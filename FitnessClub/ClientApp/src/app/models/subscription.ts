@@ -6,7 +6,8 @@ import { Wishlist } from "./wishlist"
 export interface Subscription {
   id: number,
   pricePerDay: number,
-  title: NonNullable<string>
+  title: NonNullable<string>,
+  rating: number,
 
   discounts: Array<Discount>,
   orders: Array<Order>,
