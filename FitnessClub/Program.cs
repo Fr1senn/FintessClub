@@ -10,6 +10,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FitnessClubContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("defaultConnection")));
 
+builder.Services.AddCors(p =>
+    p.AddPolicy("corsapp", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,6 +25,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors("corsapp");
 
 
 app.MapControllerRoute(
