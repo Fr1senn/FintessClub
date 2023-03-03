@@ -9,5 +9,11 @@ namespace FitnessClub.Controllers
     [ApiController]
     public class SubscriptionController : ControllerBase
     {
+        private readonly FitnessClubContext _context;
+
+        public SubscriptionController(FitnessClubContext context)
+        {
+            _context = context;
+        }
     }
 }
