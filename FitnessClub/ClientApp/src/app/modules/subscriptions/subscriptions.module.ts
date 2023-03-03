@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { SubscriptionsComponent } from "./components/subscriptions/subscriptions.component";
+import { SubscriptionComponent } from "./components/subscription/subscription.component";
 
 
 @NgModule({
   declarations: [
-    SubscriptionsComponent
+    SubscriptionsComponent,
+    SubscriptionComponent
   ],
   imports: [
     CommonModule,
