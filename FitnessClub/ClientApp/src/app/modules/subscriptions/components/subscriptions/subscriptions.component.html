@@ -1,1 +1,5 @@
-<p>subscriptions works!</p>
+<div class="grid grid-cols-4 gap-3">
+  <ng-container *ngFor="let subscription of subscriptions">
+    <app-subscription [subscription]="subscription"></app-subscription>
+  </ng-container>
+</div>
