@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from "../../../../models/subscription";
 
 @Component({
   selector: 'app-subscription',
@@ -6,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./subscription.component.css']
 })
 export class SubscriptionComponent implements OnInit {
+  @Input() subscription: Subscription | undefined;
 
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
