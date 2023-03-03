@@ -3,3 +3,6 @@
 
 # Visual Studio IDE settings
 .vs/
+
+# Visual Studio Code editor settings
+.vscode/
