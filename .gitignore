@@ -1,2 +1,5 @@
 ﻿# JetBrains IDE's settings
 .idea/
+
+# Visual Studio IDE settings
+.vs/
