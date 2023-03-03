@@ -12,7 +12,9 @@ import { SubscriptionsComponent } from "./components/subscriptions/subscriptions
   imports: [
     CommonModule,
     HttpClientModule,
-    RouterModule.forRoot([])
+    RouterModule.forRoot([
+      { path: 'Subscriptions', component: SubscriptionsComponent },
+    ])
   ],
   exports: [
     SubscriptionsComponent
