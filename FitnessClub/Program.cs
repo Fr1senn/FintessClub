@@ -10,6 +10,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<FitnessClubContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("defaultConnection")));
 
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+    );
+
 builder.Services.AddCors(p =>
     p.AddPolicy("corsapp", builder => { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }));
 
