@@ -1,1 +1,26 @@
-<p>subscription works!</p>
+<a *ngIf="subscription !== undefined" class="hover:scale-105">
+  <div class="border border-2 rounded border-gray-500 w-full m-4">
+    <div class=" m-1">
+      <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
+    </div>
+    <div class="h-[1px] border border-gray-500 w-2/3 mx-auto"></div>
+    <div>
+      <h3 class="text-center text-2xl font-bold">{{subscription.title}}</h3>
+      <p class="text-center text-lg font-medium">{{subscription.pricePerDay | currency}} <span
+        class="text-sm italic font-normal">Per Day</span></p>
+      <div class="w-1/2 mx-auto">
+        <div class="flex space-x-2 justify-center my-1">
+          <ng-container *ngFor="let item of [].constructor(5);index as i">
+            <img *ngIf="i + 1 <= subscription.rating;else greaterThanRating" class="h-5 w-5"
+                 src="assets/icons/filled_rating_icon.svg" alt="">
+            <ng-template #greaterThanRating>
+              <img class="h-5 w-5" src="assets/icons/unfilled_rating_icon.svg" alt="">
+            </ng-template>
+          </ng-container>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</a>
+
