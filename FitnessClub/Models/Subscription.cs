@@ -11,6 +11,8 @@ public partial class Subscription
 
     public string Title { get; set; } = null!;
 
+    public short? Rating { get; set; }
+
     public virtual ICollection<Discount> Discounts { get; } = new List<Discount>();
 
     public virtual ICollection<Order> Orders { get; } = new List<Order>();

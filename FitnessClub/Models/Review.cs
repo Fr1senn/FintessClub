@@ -11,11 +11,11 @@ public partial class Review
 
     public DateOnly ReviewDate { get; set; }
 
-    public short Rating { get; set; }
-
     public int? UserId { get; set; }
 
     public int? SubscriptionId { get; set; }
+
+    public short? Estimation { get; set; }
 
     public virtual Subscription? Subscription { get; set; }
 

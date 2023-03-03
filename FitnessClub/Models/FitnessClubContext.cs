@@ -151,11 +151,11 @@ public partial class FitnessClubContext : DbContext
             entity.ToTable("reviews");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.Rating).HasColumnName("rating");
+            entity.Property(e => e.Estimation).HasColumnName("estimation");
             entity.Property(e => e.ReviewDate)
                 .HasDefaultValueSql("CURRENT_DATE")
                 .HasColumnName("review_date");
-            entity.Property(e => e.ReviewText).HasColumnName("reviewText");
+            entity.Property(e => e.ReviewText).HasColumnName("review_text");
             entity.Property(e => e.SubscriptionId).HasColumnName("subscription_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
@@ -194,6 +194,7 @@ public partial class FitnessClubContext : DbContext
             entity.Property(e => e.PricePerDay)
                 .HasPrecision(5, 2)
                 .HasColumnName("price_per_day");
+            entity.Property(e => e.Rating).HasColumnName("rating");
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .HasColumnName("title");
