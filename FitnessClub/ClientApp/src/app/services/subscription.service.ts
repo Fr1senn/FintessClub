@@ -16,4 +16,8 @@ export class SubscriptionService {
   public getSubscriptions() {
     return this.http.get(this.apiUrl + '/Subscription/GetSubscriptions');
   }
+
+  public getSubscription(id: number) {
+    return this.http.get(this.apiUrl + `/Subscription/${id}`);
+  }
 }
