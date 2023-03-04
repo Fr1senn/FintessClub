@@ -1,4 +1,4 @@
-<a *ngIf="subscription !== undefined" class="hover:scale-105">
+<a [routerLink]="['Details', subscription.id]" *ngIf="subscription !== undefined" class="hover:scale-105">
   <div class="border border-2 rounded border-[#d4b07f] w-full m-4">
     <div class=" m-1">
       <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
