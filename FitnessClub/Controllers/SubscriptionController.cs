@@ -24,5 +24,15 @@ namespace FitnessClub.Controllers
                 .ToListAsync();
             return Ok(subscriptions);
         }
+
+        [HttpGet("{id:}")]
+        public async Task<IActionResult> GetSubscription(int id)
+        {
+            Subscription? subscription = await _context.Subscriptions
+                .Include(s => s.Reviews)
+                .Include(s => s.Discounts)
+                .FirstOrDefaultAsync(s => s.Id == id);
+            return Ok(subscription);
+        }
     }
 }
