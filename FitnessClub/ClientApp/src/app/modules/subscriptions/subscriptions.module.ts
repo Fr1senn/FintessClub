@@ -21,7 +21,9 @@ import { SubscriptionDetailComponent } from "./components/subscription-detail/su
     ])
   ],
   exports: [
-    SubscriptionsComponent
+    SubscriptionsComponent,
+    SubscriptionComponent,
+    SubscriptionDetailComponent
   ]
 })
 export class SubscriptionsModule {
