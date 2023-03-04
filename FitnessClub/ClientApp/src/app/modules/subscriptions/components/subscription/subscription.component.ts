@@ -24,4 +24,12 @@ export class SubscriptionComponent implements OnInit {
     }
     return this.subscription?.pricePerDay;
   }
+
+  public isDiscountActive() {
+    let discount: Discount | undefined = this.subscription?.discounts.find(discount => discount.subscriptionId === this.subscription?.id);
+    if (discount === undefined) {
+      return false;
+    }
+    return discount?.isActive;
+  }
 }
