@@ -18,6 +18,7 @@ import { SubscriptionDetailComponent } from "./components/subscription-detail/su
     HttpClientModule,
     RouterModule.forRoot([
       {path: 'Subscriptions', component: SubscriptionsComponent},
+      {path: 'Subscriptions/Details/:id', component: SubscriptionDetailComponent}
     ])
   ],
   exports: [
