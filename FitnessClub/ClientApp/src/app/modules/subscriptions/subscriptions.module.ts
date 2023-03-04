@@ -4,18 +4,20 @@ import { RouterModule } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
 import { SubscriptionsComponent } from "./components/subscriptions/subscriptions.component";
 import { SubscriptionComponent } from "./components/subscription/subscription.component";
+import { SubscriptionDetailComponent } from "./components/subscription-detail/subscription-detail.component";
 
 
 @NgModule({
   declarations: [
     SubscriptionsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    SubscriptionDetailComponent
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: 'Subscriptions', component: SubscriptionsComponent },
+      {path: 'Subscriptions', component: SubscriptionsComponent},
     ])
   ],
   exports: [
