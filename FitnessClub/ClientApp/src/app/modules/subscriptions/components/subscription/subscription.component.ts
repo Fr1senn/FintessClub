@@ -16,7 +16,7 @@ export class SubscriptionComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public calculateDiscountPrice() {
+  public calculateDiscountPrice(): number | undefined {
     let discount: Discount | undefined = this.subscription?.discounts.find(discount => discount.subscriptionId === this.subscription?.id);
     if (discount !== undefined && this.subscription !== undefined) {
       if (discount.isActive) {
@@ -26,7 +26,7 @@ export class SubscriptionComponent implements OnInit {
     return this.subscription?.pricePerDay;
   }
 
-  public isDiscountActive() {
+  public isDiscountActive(): boolean {
     let discount: Discount | undefined = this.subscription?.discounts.find(discount => discount.subscriptionId === this.subscription?.id);
     if (discount === undefined) {
       return false;
@@ -34,11 +34,11 @@ export class SubscriptionComponent implements OnInit {
     return discount?.isActive;
   }
 
-  public increaseDaysBy(days: number) {
+  public increaseDaysBy(days: number): number {
     return this.subscriptionDuration + days < 1 ? 1 : this.subscriptionDuration += days;
   }
 
-  public calculateTotalPrice() {
+  public calculateTotalPrice(): number {
     return Number((this.subscriptionDuration * this.subscription?.pricePerDay!).toFixed(1));
   }
 }
