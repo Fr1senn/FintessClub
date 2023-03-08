@@ -21,6 +21,9 @@ namespace FitnessClub.Controllers
         {
             List<Subscription> subscriptions = await _context.Subscriptions
                 .Include(s => s.Discounts)
+                .Include(s => s.Reviews)
+                .ThenInclude(r => r.User)
+                .AsNoTracking()
                 .ToListAsync();
             return Ok(subscriptions);
         }
