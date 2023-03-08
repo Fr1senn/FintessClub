@@ -1,26 +1,29 @@
-<a [routerLink]="['Details', subscription.id]" *ngIf="subscription !== undefined" class="hover:scale-105">
+<div *ngIf="subscription !== undefined">
   <div class="border border-2 rounded border-[#d4b07f] w-full m-4">
     <div class=" m-1">
       <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
     </div>
     <div class="h-[1px] border border-[#d4b07f] w-2/3 mx-auto"></div>
     <div>
-      <h3 class="text-center text-2xl font-bold">{{subscription.title}}</h3>
-      <ng-container *ngIf="isDiscountActive();else isNotActive">
-        <div class="flex items-center justify-center space-x-1 w-1/2 mx-auto">
-          <p class="text-lg font-medium line-through">{{subscription.pricePerDay | currency}}</p>
-          <p class="text-lg text-red-500 font-medium">{{calculateDiscountPrice() | currency}}</p>
-          <span class="text-sm italic font-normal">Per Day</span>
-        </div>
-      </ng-container>
-      <ng-template #isNotActive>
-        <div class="flex items-center justify-center space-x-1 w-1/2 mx-auto">
-          <p class="text-lg font-medium">{{calculateDiscountPrice() | currency}}</p>
-          <span class="text-sm italic font-normal">Per Day</span>
-        </div>
-      </ng-template>
-      <div class="w-1/2 mx-auto">
-        <div class="flex space-x-2 justify-center my-1">
+      <div class="flex items-center justify-center space-x-4">
+        <h3 class="text-center text-2xl font-bold">{{subscription.title}}</h3>
+        <button (click)="reviews.showModal()" class="hover:scale-105 duration-300">
+          <img class="h-9 w-9" src="https://cdn-icons-png.flaticon.com/512/2438/2438002.png" alt="">
+        </button>
+      </div>
+      <div class="flex items-center justify-center space-x-2">
+        <ng-container *ngIf="isDiscountActive(); else isNotActive">
+          <p class="text-3xl font-medium line-through">{{subscription.pricePerDay | currency}}</p>
+          <p class="text-3xl font-medium text-red-500">{{calculateDiscountPrice() | currency}}</p>
+          <span class="text-sm italic text-gray-500">Per Day</span>
+        </ng-container>
+        <ng-template #isNotActive>
+          <p class="text-3xl font-medium">{{subscription.pricePerDay | currency}}</p>
+          <span class="text-sm italic text-gray-500">Per Day</span>
+        </ng-template>
+      </div>
+      <div>
+        <div class="flex space-x-2 justify-center w-1/2 mx-auto my-2">
           <ng-container *ngFor="let item of [].constructor(5);index as i">
             <img *ngIf="i + 1 <= subscription.rating;else greaterThanRating" class="h-5 w-5"
                  src="assets/icons/filled_rating_icon.svg" alt="">
@@ -30,7 +33,67 @@
           </ng-container>
         </div>
       </div>
+      <button (click)="buySubscription.showModal()"
+              class="border-t-2 w-full text-lg font-medium p-0.5 rounded-t duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
+              style="border-color: var(--primary-color)">
+        Buy
+      </button>
     </div>
   </div>
-</a>
+</div>
 
+<dialog #reviews (keydown.escape)="reviews.close()"
+        class="fixed top-1/2 left-1/2 h-1/2 w-1/2 border border-2 rounded rounder-lg overflow-auto"
+        style="border-color: var(--primary-color); transform: translate(-50%, -50%); background-color: var(--background-color)">
+  <div class="flex justify-end sticky top-0">
+    <button class="text-2xl" (click)="reviews.close()">&times;</button>
+  </div>
+  <div *ngFor="let review of subscription?.reviews" class="w-3/4 mx-auto border border-2 my-2 flex rounded  p-1"
+       style="border-color: var(--primary-color)">
+    <div class="w-1/4 flex justify-center">
+      <img class="w-24 h-24 rounder rounded-[50%]"
+           src="https://cdn1.iconfinder.com/data/icons/user-avatar-20/64/18-man-256.png" alt="">
+    </div>
+    <div class="w-3/4">
+      <h3 class="text-lg font-medium">{{review.user.firstName}} {{review.user.lastName}}</h3>
+      <p class="text-xs italic">Since {{review.user.registrationDate}}</p>
+      <p>{{review.reviewText}}</p>
+    </div>
+  </div>
+</dialog>
+
+<dialog #buySubscription (keydown.escape)="buySubscription.close()"
+        class="fixed top-1/2 left-1/2 h-1/2 w-1/2 border border-2 rounded rounder-lg overflow-auto"
+        style="border-color: var(--primary-color); transform: translate(-50%, -50%); background-color: var(--background-color)">
+  <div class="flex justify-end sticky top-0">
+    <button class="text-2xl" (click)="buySubscription.close()">&times;</button>
+  </div>
+  <div class="1/2 mx-auto my-2">
+    <h3 class="text-xl font-medium text-center">Enter days of subscription duration:</h3>
+  </div>
+  <div class="flex justify-center w-1/2 mx-auto">
+    <button (click)="increaseDaysBy(-5)" class="p-1 rounded-l border-r-2 border-black font-medium text-lg"
+            style="background-color: var(--primary-color)">-5
+    </button>
+    <button (click)="increaseDaysBy(-1)" class="p-1 font-medium" style="background-color: var(--primary-color)">-1
+    </button>
+    <input [(ngModel)]="subscriptionDuration" class="w-2/5 text-center border border-2 mx-0.5 rounded"
+           style="background-color: var(--background-color); border-color: var(--primary-color)" type="number"
+           min="1">
+    <button (click)="increaseDaysBy(1)" class="p-1 font-medium" style="background-color: var(--primary-color)">+1
+    </button>
+    <button (click)="increaseDaysBy(5)" class="p-1 rounded-r border-l-2 border-black font-medium"
+            style="background-color: var(--primary-color)">+5
+    </button>
+  </div>
+  <div class="1/2 mx-auto my-2">
+    <h3 class="text-xl font-medium text-center">Total price: {{calculateTotalPrice()}}</h3>
+  </div>
+  <div class="w-1/3 mx-auto my-2">
+    <button (click)="buySubscription.showModal()"
+            class="border-2 w-full text-lg font-medium p-0.5 rounded duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
+            style="border-color: var(--primary-color)">
+      Buy
+    </button>
+  </div>
+</dialog>
