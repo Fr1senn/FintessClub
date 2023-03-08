@@ -37,4 +37,8 @@ export class SubscriptionComponent implements OnInit {
   public increaseDaysBy(days: number) {
     return this.subscriptionDuration + days < 1 ? 1 : this.subscriptionDuration += days;
   }
+
+  public calculateTotalPrice() {
+    return Number((this.subscriptionDuration * this.subscription?.pricePerDay!).toFixed(1));
+  }
 }
