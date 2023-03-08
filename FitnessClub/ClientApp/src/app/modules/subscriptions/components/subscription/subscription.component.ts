@@ -9,6 +9,7 @@ import { Discount } from "../../../../models/discount";
 })
 export class SubscriptionComponent implements OnInit {
   @Input() subscription: Subscription | undefined;
+  subscriptionDuration: number = 1;
 
   constructor() { }
 
@@ -31,5 +32,9 @@ export class SubscriptionComponent implements OnInit {
       return false;
     }
     return discount?.isActive;
+  }
+
+  public increaseDaysBy(days: number) {
+    return this.subscriptionDuration + days < 1 ? 1 : this.subscriptionDuration += days;
   }
 }
