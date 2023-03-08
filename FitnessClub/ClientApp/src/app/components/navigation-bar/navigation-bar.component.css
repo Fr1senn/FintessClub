@@ -1,0 +1,14 @@
+#signUp {
+  font-weight: 500;
+  border: 2px solid black;
+  border-radius: 6px;
+  padding: 4px;
+}
+
+#signIn {
+  font-weight: 500;
+  padding: 4px;
+  border-radius: 6px;
+  border: 2px solid var(--secondary-color);
+  color: var(--secondary-color);
+}
