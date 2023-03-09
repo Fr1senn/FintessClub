@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -9,6 +9,8 @@ import { NavigationBarComponent } from "./components/navigation-bar/navigation-b
 import { FooterBarComponent } from "./components/footer-bar/footer-bar.component";
 import { SubscriptionsModule } from "./modules/subscriptions/subscriptions.module";
 import { RegistrationComponent } from "./components/registration/registration.component";
+import { JwtModule } from "@auth0/angular-jwt";
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,14 @@ import { RegistrationComponent } from "./components/registration/registration.co
     RouterModule.forRoot([
       {path: 'Registration', component: RegistrationComponent}
     ]),
-    SubscriptionsModule
+    SubscriptionsModule,
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+
+        allowedDomains: environment.tokenAllowedDomains
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
