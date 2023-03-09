@@ -8,12 +8,14 @@ import { AppComponent } from './app.component';
 import { NavigationBarComponent } from "./components/navigation-bar/navigation-bar.component";
 import { FooterBarComponent } from "./components/footer-bar/footer-bar.component";
 import { SubscriptionsModule } from "./modules/subscriptions/subscriptions.module";
+import { RegistrationComponent } from "./components/registration/registration.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationBarComponent,
-    FooterBarComponent
+    FooterBarComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
