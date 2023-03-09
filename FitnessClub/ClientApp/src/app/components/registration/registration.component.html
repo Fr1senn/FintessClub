@@ -1,1 +1,73 @@
-<p>registration works!</p>
+<form class="w-1/4 mx-auto" [formGroup]="form" method="post" (ngSubmit)="submit()">
+  <div class="error" *ngIf="errorMessage !== undefined">
+    <span>{{errorMessage}}</span>
+  </div>
+  <div class="flex flex-col">
+    <label>First name<span>*</span></label>
+    <input type="text" name="firstName" formControlName="firstName" maxlength="50"/>
+    <div *ngIf="form.get('firstName') as fn">
+      <div *ngIf="fn?.touched && fn?.invalid">
+        <span *ngIf="fn.errors?.required">You have to provide your first name</span>
+        <span *ngIf="fn.errors?.minlength">The first name has to be 2 or more characters long</span>
+        <span *ngIf="fn.errors?.pattern">The first name has to start with a letter and consist only of letters, space, - or '</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <label>Last name<span>*</span></label>
+    <input type="text" name="lastName" formControlName="lastName" maxlength="50"/>
+    <div *ngIf="form.get('lastName') as ln">
+      <div *ngIf="ln?.touched && ln?.invalid">
+        <span *ngIf="ln.errors?.required">You have to provide your last name</span>
+        <span *ngIf="ln.errors?.minlength">The last name has to be 2 or more characters long</span>
+        <span *ngIf="ln.errors?.pattern">The last name has to start with a letter and consist only of letters, space, - or '</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <label>Email<span>*</span></label>
+    <input type="email" name="email" formControlName="email" maxlength="320"/>
+    <div *ngIf="form.get('email') as em">
+      <div *ngIf="em?.touched && em?.invalid">
+        <span *ngIf="em.errors?.required">You have to provide your email</span>
+        <span *ngIf="em.errors?.email">Email is incorrect</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-between">
+    <div>
+      <label class="block">Date of birth<span>*</span></label>
+      <input type="date" min="{{minAllowedBirthDate}}" max="{{maxAllowedBirthDate}}" name="birthDate"
+             formControlName="birthDate" required/>
+      <div *ngIf="form.get('birthDate') as bd">
+        <div *ngIf="bd?.touched && bd?.invalid">
+          <span *ngIf="bd.errors?.required">You have to provide your date of birth</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <label>Password<span>*</span></label>
+    <input type="password" name="password" formControlName="password" required/>
+    <div *ngIf="form.get('password') as pw">
+      <div *ngIf="pw?.touched && pw?.invalid">
+        <span *ngIf="pw.errors?.required">You have to provide password</span>
+        <span *ngIf="pw.errors?.minlength">The password has to be 8 or more characters long. </span>
+        <span *ngIf="pw.errors?.pattern">Password must contain at least one uppercase letter, one lowercase letter, one number and one special character.</span>
+      </div>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <label>Confirm password<span>*</span></label>
+    <input type="password" name="passwordConfirm" formControlName="passwordConfirm" required/>
+    <div *ngIf="form.get('passwordConfirm') as pc">
+      <div *ngIf="pc?.touched && (pc?.invalid || form.invalid)">
+        <span *ngIf="pc.errors?.required">You have to confirm the password. </span>
+        <span *ngIf="form.hasError('mismatch')">Passwords do not match</span>
+      </div>
+    </div>
+  </div>
+  <div class="w-1/2 mx-auto flex justify-center my-2">
+    <button [disabled]="form.invalid" type="submit">Sign Up</button>
+  </div>
+</form>
