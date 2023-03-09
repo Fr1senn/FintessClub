@@ -27,7 +27,7 @@ namespace FitnessClub.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("Registration")]
         public async Task<IActionResult> Register([FromBody] RegisterModel request)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
