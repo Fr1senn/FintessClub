@@ -21,7 +21,9 @@ import { RegistrationComponent } from "./components/registration/registration.co
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([]),
+    RouterModule.forRoot([
+      {path: 'Registration', component: RegistrationComponent}
+    ]),
     SubscriptionsModule
   ],
   providers: [],
