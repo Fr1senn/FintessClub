@@ -11,13 +11,15 @@ import { SubscriptionsModule } from "./modules/subscriptions/subscriptions.modul
 import { RegistrationComponent } from "./components/registration/registration.component";
 import { JwtModule } from "@auth0/angular-jwt";
 import { environment } from 'src/environments/environment';
+import { LoginComponent } from "./components/login/login.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationBarComponent,
     FooterBarComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
