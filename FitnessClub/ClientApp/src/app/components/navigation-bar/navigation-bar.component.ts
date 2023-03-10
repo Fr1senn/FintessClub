@@ -11,7 +11,14 @@ export class NavigationBarComponent implements OnInit {
   private readonly authService: AuthService;
   private readonly router: Router;
 
-  constructor() { }
+  public get isLoggedIn(): boolean {
+    return this.authService.isUserAuthenticated();
+  }
+
+  constructor(authService: AuthService, router: Router) {
+    this.authService = authService;
+    this.router = router;
+  }
 
   ngOnInit(): void {
   }
