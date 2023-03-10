@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from "@angular/router";
 import { environment } from 'src/environments/environment';
+import { tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,20 @@ export class AuthService {
       observe: 'response',
       responseType: 'text' as 'json'
     });
+  }
+
+  public async login(form: FormGroup): Promise<boolean> {
+    await this.http.post<string>(this.apiUrl + "/Auth/Login", form.getRawValue(), {responseType: "text" as "json"}).pipe(tap(data => this.userJwt = data)).toPromise();
+    return !!this.userJwt && !this.jwtHelperService.isTokenExpired(this.userJwt);
+  }
+
+  public isUserAuthenticated(): boolean {
+    let token: string | null = this.userToken;
+    return (!!token && !this.jwtHelperService.isTokenExpired(token)) as boolean;
+  }
+
+  public logout(): void {
+    localStorage.clear();
+    this.router.navigate([""]);
   }
 }
