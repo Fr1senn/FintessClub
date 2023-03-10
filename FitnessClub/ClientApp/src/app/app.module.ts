@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -12,6 +12,9 @@ import { RegistrationComponent } from "./components/registration/registration.co
 import { JwtModule } from "@auth0/angular-jwt";
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from "./components/login/login.component";
+import { JwtExpirationInterceptor } from './interceptors/jwt-expiration.interceptor';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { AuthenticatedGuard } from './guards/authenticated.guard';
 
 @NgModule({
   declarations: [
@@ -26,8 +29,8 @@ import { LoginComponent } from "./components/login/login.component";
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      {path: 'Registration', component: RegistrationComponent},
-      {path: 'Login', component: LoginComponent}
+      {path: 'Registration', component: RegistrationComponent, canActivate: [AuthenticatedGuard]},
+      {path: 'Login', component: LoginComponent, canActivate: [AuthenticatedGuard]}
     ]),
     SubscriptionsModule,
     ReactiveFormsModule,
@@ -38,7 +41,15 @@ import { LoginComponent } from "./components/login/login.component";
       }
     })
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: JwtExpirationInterceptor,
+    multi: true
+  }, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
