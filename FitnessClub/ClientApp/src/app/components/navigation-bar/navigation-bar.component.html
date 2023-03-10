@@ -11,8 +11,10 @@
         </li>
       </ul>
       <div class="flex items-center space-x-4">
-        <a [routerLink]="['Registration']" id="signUp">Sign Up</a>
-        <a [routerLink]="['Login']" id="signIn">Sign In</a>
+        <a *ngIf="isLoggedIn" [routerLink]="['']">Profile</a>
+        <a *ngIf="isLoggedIn" (click)="logout()">Sign Out</a>
+        <a *ngIf="!isLoggedIn"  [routerLink]="['Registration']">Sign Up</a>
+        <a *ngIf="!isLoggedIn" [routerLink]="['Login']">Sign In</a>
       </div>
     </nav>
   </div>
