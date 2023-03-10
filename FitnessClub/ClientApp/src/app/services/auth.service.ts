@@ -15,6 +15,16 @@ export class AuthService {
   private readonly router: Router;
   private readonly apiUrl: string = environment.baseApiUrl;
 
+  get userToken(): string | null {
+    return localStorage.getItem('ACCESS_TOKEN_KEY');
+  }
+
+  private set userJwt(jwToken: string | null) {
+    if (!jwToken)
+      throw new Error("Token wasn't specified");
+    localStorage.setItem('ACCESS_TOKEN_KEY', jwToken);
+  }
+
   constructor(http: HttpClient, router: Router, jwtHelperService: JwtHelperService) {
     this.http = http;
     this.jwtHelperService = jwtHelperService;
