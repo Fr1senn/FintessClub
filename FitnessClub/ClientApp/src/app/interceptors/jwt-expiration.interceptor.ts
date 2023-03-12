@@ -20,7 +20,7 @@ export class JwtExpirationInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (this.authService.userToken && this.jwtHelperService.isTokenExpired(this.authService.userToken)) {
+    if (this.authService.userJwt && this.jwtHelperService.isTokenExpired(this.authService.userJwt)) {
       this.authService.logout();
       return EMPTY;
     }

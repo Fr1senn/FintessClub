@@ -15,7 +15,7 @@ export class AuthService {
   private readonly router: Router;
   private readonly apiUrl: string = environment.baseApiUrl;
 
-  get userToken(): string | null {
+  public get userJwt(): string | null {
     return localStorage.getItem('ACCESS_TOKEN_KEY');
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   public isUserAuthenticated(): boolean {
-    let token: string | null = this.userToken;
+    let token: string | null = this.userJwt;
     return (!!token && !this.jwtHelperService.isTokenExpired(token)) as boolean;
   }
 
