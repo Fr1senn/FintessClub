@@ -11,10 +11,24 @@
         </li>
       </ul>
       <div class="flex items-center space-x-4">
-        <a *ngIf="isLoggedIn" [routerLink]="['']">Profile</a>
-        <a *ngIf="isLoggedIn" (click)="logout()">Sign Out</a>
-        <a *ngIf="!isLoggedIn"  [routerLink]="['Registration']">Sign Up</a>
-        <a *ngIf="!isLoggedIn" [routerLink]="['Login']">Sign In</a>
+        <ul class="flex items-center space-x-2">
+          <li *ngIf="isLoggedIn" [routerLink]="['']"
+              class="text-lg font-medium p-1 border-2 rounded border-black hover:cursor-pointer duration-[250ms] hover:scale-110">
+            Profile
+          </li>
+          <li *ngIf="isLoggedIn" (click)="logout()"
+              class="text-lg font-medium p-1 border-2 rounded border-black hover:cursor-pointer duration-[250ms] hover:scale-110">
+            Sign Out
+          </li>
+          <li *ngIf="!isLoggedIn" [routerLink]="['Registration']"
+              class="text-lg font-medium p-1 border-2 rounded border-black hover:cursor-pointer duration-[250ms] hover:scale-110">
+            Sign Up
+          </li>
+          <li *ngIf="!isLoggedIn" [routerLink]="['Login']"
+              class="text-lg font-medium p-1 border-2 rounded border-black hover:cursor-pointer duration-[250ms] hover:scale-110">
+            Sign In
+          </li>
+        </ul>
       </div>
     </nav>
   </div>
