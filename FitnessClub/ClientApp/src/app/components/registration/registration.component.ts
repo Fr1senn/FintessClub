@@ -43,7 +43,7 @@ export class RegistrationComponent implements OnInit {
 
   public submit() {
     this.authService.registration(this.form).subscribe(() => {
-        this.router.navigate(['']).then(() => alert('User has been successfully created'));
+        this.router.navigate(['Login']).then(() => alert('User has been successfully created'));
       },
       (error: HttpErrorResponse) => {
         if (error.status === 400) this.errorMessage = error.error;
