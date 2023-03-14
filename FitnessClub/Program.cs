@@ -27,7 +27,12 @@ builder.Services.AddAuthentication(options =>
     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie().AddJwtBearer(options =>
+}).AddCookie(options =>
+{
+    options.ExpireTimeSpan = TimeSpan.FromDays(28);
+    options.Cookie.MaxAge = options.ExpireTimeSpan; // optional
+    options.SlidingExpiration = true;
+}).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
