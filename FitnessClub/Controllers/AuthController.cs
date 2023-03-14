@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using FitnessClub.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -65,29 +67,38 @@ namespace FitnessClub.Controllers
 
             if (!BCrypt.Net.BCrypt.Verify(request.Password, userFromDb.Password)) return BadRequest("Wrong password");
 
-            var token = GenerateToken(userFromDb);
-            return Ok(token);
+            return Ok(GenerateToken(userFromDb).Result);
         }
 
-        private string GenerateToken(User? user)
+        private async Task<string> GenerateToken(User? user)
         {
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("Id", user!.Id.ToString()),
                 new Claim("Role", user.Role!.Title)
             };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                AllowRefresh = true,
+                ExpiresUtc = DateTimeOffset.UtcNow.AddDays(28),
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity), authProperties);
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSecretKey"]!));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddDays(28),
-                signingCredentials: credentials,
-                issuer: "https://localhost:7123",
-                audience: "https://localhost:7123"
+                signingCredentials: credentials
             );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
+            
             return jwt;
         }
     }
