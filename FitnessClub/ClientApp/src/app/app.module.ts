@@ -15,7 +15,6 @@ import { LoginComponent } from "./components/login/login.component";
 import { JwtExpirationInterceptor } from './interceptors/jwt-expiration.interceptor';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
-import { ProfileModule } from "./modules/profile/profile.module";
 
 export function tokenGetter() {
   return localStorage.getItem('ACCESS_TOKEN_KEY');
@@ -38,12 +37,12 @@ export function tokenGetter() {
       {path: 'Login', component: LoginComponent, canActivate: [AuthenticatedGuard]}
     ]),
     SubscriptionsModule,
-    ProfileModule,
     ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter,
-        allowedDomains: environment.tokenAllowedDomains
+        tokenGetter: tokenGetter,
+        allowedDomains: [environment.baseApiUrl, environment.baseAppUrl],
+        disallowedRoutes: []
       }
     })
   ],
