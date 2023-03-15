@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using FitnessClub.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -70,23 +71,23 @@ namespace FitnessClub.Controllers
 
         private string GenerateToken(User? user)
         {
-            List<Claim> claims = new List<Claim>
+            List<Claim> claims = new List<Claim>()
             {
                 new Claim("Id", user!.Id.ToString()),
-                new Claim("Email", user!.Email!),
                 new Claim("Role", user.Role!.Title)
             };
-            var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:JWToken").Value!));
-            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWTSecretKey"]!));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(28),
-                signingCredentials: credentials
+                expires: DateTime.Now.AddDays(7),
+                signingCredentials: credentials,
+                issuer: "https://localhost:7123",
+                audience: "https://localhost:7123"
             );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
+            
             return jwt;
         }
     }

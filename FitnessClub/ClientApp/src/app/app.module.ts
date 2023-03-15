@@ -16,6 +16,10 @@ import { JwtExpirationInterceptor } from './interceptors/jwt-expiration.intercep
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 
+export function tokenGetter() {
+  return localStorage.getItem('ACCESS_TOKEN_KEY');
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,8 +40,9 @@ import { AuthenticatedGuard } from './guards/authenticated.guard';
     ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
-
-        allowedDomains: environment.tokenAllowedDomains
+        tokenGetter: tokenGetter,
+        allowedDomains: [environment.baseApiUrl, environment.baseAppUrl],
+        disallowedRoutes: []
       }
     })
   ],
