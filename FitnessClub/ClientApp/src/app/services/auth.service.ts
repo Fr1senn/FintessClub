@@ -15,13 +15,13 @@ export class AuthService {
   private readonly router: Router;
   private readonly apiUrl: string = environment.baseApiUrl;
 
-  public get userJwt(): string | null {
+  get userJwt(): string | null {
     return localStorage.getItem('ACCESS_TOKEN_KEY');
   }
 
   private set userJwt(jwToken: string | null) {
     if (!jwToken)
-      throw new Error("Token wasn't specified");
+      throw new Error('Token wasn\'t specified');
     localStorage.setItem('ACCESS_TOKEN_KEY', jwToken);
   }
 
@@ -39,7 +39,8 @@ export class AuthService {
   }
 
   public async login(form: FormGroup): Promise<boolean> {
-    await this.http.post<string>(this.apiUrl + "/Auth/Login", form.getRawValue(), {responseType: "text" as "json"}).pipe(tap(data => this.userJwt = data)).toPromise();
+    await this.http.post<string>(this.apiUrl + '/Auth/Login', form.getRawValue(),
+      {responseType: 'text' as 'json'}).pipe(tap(data => this.userJwt = data)).toPromise();
     return !!this.userJwt && !this.jwtHelperService.isTokenExpired(this.userJwt);
   }
 
@@ -50,6 +51,6 @@ export class AuthService {
 
   public logout(): void {
     localStorage.clear();
-    this.router.navigate([""]);
+    this.router.navigate(['']);
   }
 }

@@ -81,13 +81,13 @@ namespace FitnessClub.Controllers
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(28),
+                expires: DateTime.Now.AddDays(7),
                 signingCredentials: credentials,
                 issuer: "https://localhost:7123",
                 audience: "https://localhost:7123"
             );
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
-
+            
             return jwt;
         }
     }

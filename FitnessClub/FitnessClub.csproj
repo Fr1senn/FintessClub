@@ -38,7 +38,6 @@
 
     <ItemGroup>
       <Folder Include="ClientApp\src\app\interceptors" />
-      <Folder Include="ClientApp\src\app\modules\profile\components" />
     </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

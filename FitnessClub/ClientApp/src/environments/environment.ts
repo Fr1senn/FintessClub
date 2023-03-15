@@ -6,7 +6,6 @@ export const environment = {
   production: false,
   baseAppUrl: 'https://localhost:44453',
   baseApiUrl: 'https://localhost:7123/api',
-  tokenAllowedDomains: ["https://localhost:7254"]
 };
 
 /*

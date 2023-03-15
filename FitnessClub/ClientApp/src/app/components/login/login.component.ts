@@ -29,17 +29,17 @@ export class LoginComponent implements OnInit {
 
   public submit() {
     this.authService.login(this.form)
-      .then(() => this.router.navigate([""]))
+      .then(() => this.router.navigate(['']))
       .catch((error: HttpErrorResponse) => {
         if (error.status === 400) this.errorMessage = error.error
-        else this.errorMessage = "Unknown error occurred";
+        else this.errorMessage = 'Unknown error occurred';
       });
   }
 
   private getFormGroupInstance() {
     return this.formBuilder.group({
       email: new FormControl(null, [Validators.required, Validators.email]),
-      password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.pattern("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&_])[A-Za-z\\d@$!%*#?&_]{8,}$")]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8), Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*#?&_])[A-Za-z\\d@$!%*#?&_]{8,}$')]),
     });
   }
 }
