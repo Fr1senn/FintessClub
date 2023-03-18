@@ -1,1 +1,3 @@
-<p>user-reviews works!</p>
+<ng-container *ngFor="let review of reviews">
+  <app-user-review [review]="review"></app-user-review>
+</ng-container>
