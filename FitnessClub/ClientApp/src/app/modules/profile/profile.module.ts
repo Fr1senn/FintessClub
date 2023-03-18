@@ -6,6 +6,7 @@ import { RouterModule } from "@angular/router";
 import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
 import { UserReviewsComponent } from "./components/user-reviews/user-reviews.component";
 import { UserReviewComponent } from "./components/user-reviews/user-review/user-review.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -17,6 +18,8 @@ import { UserReviewComponent } from "./components/user-reviews/user-review/user-
   imports: [
     CommonModule,
     HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
     RouterModule.forRoot([
       {
         path: 'Profile', component: CredentialsComponent, canActivate: [NotAuthenticatedGuard],
