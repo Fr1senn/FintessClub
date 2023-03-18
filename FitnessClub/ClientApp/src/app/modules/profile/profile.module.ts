@@ -5,12 +5,14 @@ import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
 import { UserReviewsComponent } from "./components/user-reviews/user-reviews.component";
+import { UserReviewComponent } from "./components/user-reviews/user-review/user-review.component";
 
 
 @NgModule({
   declarations: [
     CredentialsComponent,
-    UserReviewsComponent
+    UserReviewsComponent,
+    UserReviewComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { UserReviewsComponent } from "./components/user-reviews/user-reviews.com
   ],
   exports: [
     CredentialsComponent,
-    UserReviewsComponent
+    UserReviewsComponent,
+    UserReviewComponent
   ]
 })
 export class ProfileModule {
