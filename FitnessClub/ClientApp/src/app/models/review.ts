@@ -1,12 +1,14 @@
 ﻿import { User } from "./user";
+import { Subscription } from "./subscription";
 
 export interface Review {
   id: number,
   reviewText?: string,
   reviewDate: Date,
-  estimation: number,
   userId?: number,
   subscriptionId?: number
+  estimation: number,
 
-  user: User
+  subscription?: Subscription,
+  user?: User
 }
