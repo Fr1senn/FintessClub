@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitnessClub.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ namespace FitnessClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ReviewController : ControllerBase
     {
         private readonly FitnessClubContext _context;
@@ -35,6 +37,18 @@ namespace FitnessClub.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("Review has been successfully updated");
+        }
+        
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete([FromBody] int id)
+        {
+            Review? review = await _context.Reviews.FindAsync(id);
+
+            if (review is null) return BadRequest("Couldn't find review");
+
+            _context.Reviews.Remove(review);
+            await _context.SaveChangesAsync();
+            return Ok("Review has been successfully deleted");
         }
     }
 }
