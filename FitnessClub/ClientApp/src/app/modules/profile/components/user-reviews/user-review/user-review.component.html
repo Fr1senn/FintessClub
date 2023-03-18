@@ -5,8 +5,34 @@
          src="https://cdn1.iconfinder.com/data/icons/user-avatar-20/64/18-man-256.png" alt="">
   </div>
   <div class="w-3/4">
-    <h3 class="text-lg font-medium">{{review?.user?.firstName}} {{review?.user?.lastName}}</h3>
+    <div class="flex space-x-2 items-center">
+      <h3 class="text-lg font-medium">{{review?.user?.firstName}} {{review?.user?.lastName}}</h3>
+      <button (click)="isEditing=!isEditing" class="text-sm text-gray-500 underline font-normal">Edit</button>
+    </div>
     <p class="text-xs italic">Since {{review?.user?.registrationDate}}</p>
-    <p>{{review?.reviewText}}</p>
+    <ng-container *ngIf="!isEditing; else editing">
+      <p>{{review?.reviewText}}</p>
+    </ng-container>
+    <ng-template #editing>
+      <form [formGroup]="form" method="post">
+        <div class="flex space-x-2 my-1.5">
+          <ng-container *ngFor="let item of [].constructor(+estimation.toFixed()); let i=index">
+            <img (click)="changeEstimation(i)" alt=""
+                 class="h-5 w-5 hover:cursor-pointer" src="assets/icons/filled_rating_icon.svg">
+          </ng-container>
+          <ng-container *ngFor="let item of [].constructor(5-+estimation.toFixed()); let i=index">
+            <img class="h-5 w-5 opacity-50 hover:cursor-pointer" src="assets/icons/unfilled_rating_icon.svg"
+                 (click)="changeEstimation(i++estimation.toFixed())" alt="">
+          </ng-container>
+        </div>
+        <textarea formControlName="reviewText" class="border w-full"
+                  style="border-color: var(--primary-color); resize: vertical"></textarea>
+        <button
+          (click)="saveChanges()"
+          class="border-2 text-lg font-medium p-0.5 rounded duration-200 bg-[#d4b07f] text-[#fff] hover:bg-[#fff] hover:text-[#d4b07f]"
+          style="border-color: var(--primary-color)">Save Changes
+        </button>
+      </form>
+    </ng-template>
   </div>
 </div>
