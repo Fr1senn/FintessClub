@@ -19,6 +19,10 @@ export class UserReviewsComponent implements OnInit {
     this.getUserReview();
   }
 
+  public remove(id: number) {
+    this.reviews = this.reviews!.filter((item: Review) => item.id !== id);
+  }
+
   private getUserReview() {
     this.userService.getUserReviews().subscribe((data: Object) => {
       this.reviews = Object.values(data);
