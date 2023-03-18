@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Review } from "../../../../../models/review";
 import { ReviewService } from "../../../../../services/review.service";
@@ -10,6 +10,7 @@ import { ReviewService } from "../../../../../services/review.service";
 })
 export class UserReviewComponent implements OnInit {
   @Input() public review: Review | undefined;
+  @Output() public removeEvent: any = new EventEmitter<any>();
   public isEditing: boolean = false;
   public form!: FormGroup;
   public estimation: number = 1;
@@ -33,6 +34,10 @@ export class UserReviewComponent implements OnInit {
       this.review!.estimation = this.estimation;
       this.review!.reviewText = this.form.get('reviewText')?.value;
     });
+  }
+
+  public removeReview() {
+    this.reviewService.delete(this.review!.id).subscribe(() => this.removeEvent.emit());
   }
 
   public changeEstimation(index: number) {
