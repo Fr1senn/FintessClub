@@ -18,7 +18,7 @@ import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
     ]),
   ],
   exports: [
-    UserProfileComponent
+    UserProfileComponent,
   ]
 })
 export class ProfileModule {
