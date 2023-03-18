@@ -14,7 +14,7 @@ export class UserService {
     this.http = http;
   }
 
-  public getCurrentUser() {
-    return this.http.get(this.apiUrl + '/User/GetCurrentUser');
+  public getCurrentUser(): Observable<User> {
+    return this.http.get<User>(this.apiUrl + '/User/GetCurrentUser');
   }
 }
