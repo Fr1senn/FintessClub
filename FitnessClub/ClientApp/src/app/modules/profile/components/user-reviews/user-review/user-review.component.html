@@ -8,6 +8,7 @@
     <div class="flex space-x-2 items-center">
       <h3 class="text-lg font-medium">{{review?.user?.firstName}} {{review?.user?.lastName}}</h3>
       <button (click)="isEditing=!isEditing" class="text-sm text-gray-500 underline font-normal">Edit</button>
+      <button (click)="removeReview()" class="text-sm text-gray-500 underline font-normal">Remove</button>
     </div>
     <p class="text-xs italic">Since {{review?.user?.registrationDate}}</p>
     <ng-container *ngIf="!isEditing; else editing">
