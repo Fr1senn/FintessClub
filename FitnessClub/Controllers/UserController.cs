@@ -16,7 +16,7 @@ namespace FitnessClub.Controllers
     public class UserController : ControllerBase
     {
         private readonly FitnessClubContext _context;
-        
+
         public UserController(FitnessClubContext context)
         {
             _context = context;
@@ -29,8 +29,20 @@ namespace FitnessClub.Controllers
             User? user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user is null) return BadRequest("User not found");
-            
             return Ok(user);
+        }
+
+        [HttpGet("GetUserReviews")]
+        public async Task<IActionResult> GetUserReviews()
+        {
+            int userId = Convert.ToInt32(User.FindFirst("Id")?.Value);
+            List<Review> reviews = await _context.Reviews
+                .Include(r => r.User)
+                .Include(r => r.Subscription)
+                .AsNoTracking()
+                .Where(r => r.UserId == userId)
+                .ToListAsync();
+            return Ok(reviews);
         }
     }
 }
