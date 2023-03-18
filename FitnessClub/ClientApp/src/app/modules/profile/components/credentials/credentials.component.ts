@@ -3,11 +3,11 @@ import { User } from 'src/app/models/user';
 import { UserService } from "../../../../services/user.service";
 
 @Component({
-  selector: 'app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.css']
+  selector: 'app-credentials',
+  templateUrl: './credentials.component.html',
+  styleUrls: ['./credentials.component.css']
 })
-export class UserProfileComponent implements OnInit {
+export class CredentialsComponent implements OnInit {
   public user: User | undefined;
   private readonly userService: UserService;
 
@@ -19,10 +19,9 @@ export class UserProfileComponent implements OnInit {
     this.getCurrentUser();
   }
 
-  public getCurrentUser(): void {
+  private getCurrentUser(): void {
     this.userService.getCurrentUser().subscribe((data: Object) => {
       this.user = data as User;
     });
   }
-
 }
