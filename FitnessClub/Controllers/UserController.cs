@@ -44,5 +44,28 @@ namespace FitnessClub.Controllers
                 .ToListAsync();
             return Ok(reviews);
         }
+
+        [HttpPost("ToggleWishlistItem")]
+        public async Task<IActionResult> ToggleWishlistItem([FromBody] int subscriptionId)
+        {
+            Subscription? subscription = await _context.Subscriptions.FindAsync(subscriptionId);
+            if (subscription is null)
+                return BadRequest("There is no product with such id");
+
+            int id = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
+            User? currentUser =
+                await _context.Users.Include(u => u.Wishlists).AsNoTracking().FirstAsync(u => u.Id == id);
+            Wishlist? wishlistItem = currentUser.Wishlists.FirstOrDefault(w => w.SubscriptionId == subscriptionId);
+            if (wishlistItem is null)
+                await _context.Wishlists.AddAsync(new Wishlist
+                {
+                    UserId = currentUser.Id,
+                    SubscriptionId = subscriptionId,
+                });
+            else
+                _context.Wishlists.Remove(wishlistItem);
+            await _context.SaveChangesAsync();
+            return Ok("Wishlist item has been successfully toggled");
+        }
     }
 }
