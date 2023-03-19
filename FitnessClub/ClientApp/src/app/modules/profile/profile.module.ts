@@ -7,13 +7,15 @@ import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
 import { UserReviewsComponent } from "./components/user-reviews/user-reviews.component";
 import { UserReviewComponent } from "./components/user-reviews/user-review/user-review.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { WishlistComponent } from "./components/wishlist/wishlist.component";
 
 
 @NgModule({
   declarations: [
     CredentialsComponent,
     UserReviewsComponent,
-    UserReviewComponent
+    UserReviewComponent,
+    WishlistComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +27,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
         path: 'Profile', component: CredentialsComponent, canActivate: [NotAuthenticatedGuard],
         children: [
           {path: 'Reviews', component: UserReviewsComponent},
+          {path: 'Wishlist', component: WishlistComponent}
         ]
       }
     ]),
@@ -32,7 +35,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
   exports: [
     CredentialsComponent,
     UserReviewsComponent,
-    UserReviewComponent
+    UserReviewComponent,
+    WishlistComponent
   ]
 })
 export class ProfileModule {
