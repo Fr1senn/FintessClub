@@ -13,19 +13,13 @@ export class UserReviewsComponent implements OnInit {
 
   constructor(userService: UserService) {
     this.userService = userService;
+    this.userService.currentUser.subscribe(user => this.reviews = user.reviews);
   }
 
   ngOnInit(): void {
-    this.getUserReview();
   }
 
   public remove(id: number) {
     this.reviews = this.reviews!.filter((item: Review) => item.id !== id);
-  }
-
-  private getUserReview() {
-    this.userService.getUserReviews().subscribe((data: Object) => {
-      this.reviews = Object.values(data);
-    });
   }
 }

@@ -13,15 +13,9 @@ export class CredentialsComponent implements OnInit {
 
   constructor(userService: UserService) {
     this.userService = userService;
+    this.userService.currentUser.subscribe(user => this.user = user);
   }
 
   ngOnInit(): void {
-    this.getCurrentUser();
-  }
-
-  private getCurrentUser(): void {
-    this.userService.getCurrentUser().subscribe((data: Object) => {
-      this.user = data as User;
-    });
   }
 }

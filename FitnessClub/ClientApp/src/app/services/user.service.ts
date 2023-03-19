@@ -12,17 +12,19 @@ import { Subscription } from "../models/subscription";
 export class UserService {
   private readonly http: HttpClient;
   private readonly apiUrl: string = environment.baseApiUrl;
+  private readonly userData: Observable<User>;
+
+  public get currentUser() {
+    return this.userData;
+  }
 
   constructor(http: HttpClient) {
     this.http = http;
+    this.userData = this.getCurrentUser();
   }
 
   public getCurrentUser(): Observable<User> {
     return this.http.get<User>(this.apiUrl + '/User/GetCurrentUser');
-  }
-
-  public getUserReviews(): Observable<Review[]> {
-    return this.http.get<Review[]>(this.apiUrl + '/User/GetUserReviews');
   }
 
   public toggleWishlistItem(subscriptionId: number): Observable<Subscription> {
