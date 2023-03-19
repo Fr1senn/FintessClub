@@ -48,7 +48,7 @@ public partial class FitnessClubContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("defaultConnection"));
+            optionsBuilder.UseNpgsql(_configuration?.GetConnectionString("defaultConnection"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -194,7 +194,9 @@ public partial class FitnessClubContext : DbContext
             entity.Property(e => e.PricePerDay)
                 .HasPrecision(5, 2)
                 .HasColumnName("price_per_day");
-            entity.Property(e => e.Rating).HasColumnName("rating");
+            entity.Property(e => e.Rating)
+                .HasPrecision(4, 2)
+                .HasColumnName("rating");
             entity.Property(e => e.Title)
                 .HasMaxLength(100)
                 .HasColumnName("title");
@@ -261,6 +263,7 @@ public partial class FitnessClubContext : DbContext
             entity.ToTable("wishlists");
 
             entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.DaysAmount).HasColumnName("days_amount");
             entity.Property(e => e.SubscriptionId).HasColumnName("subscription_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
