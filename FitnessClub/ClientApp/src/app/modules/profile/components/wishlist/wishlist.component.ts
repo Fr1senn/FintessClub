@@ -24,4 +24,16 @@ export class WishlistComponent implements OnInit {
     return Math.round(wishlistItem?.daysAmount! * wishlistItem?.subscription?.pricePerDay!);
   }
 
+  public toggleWishlistItem(subscription_id: number): void {
+    let wishlistData = {
+      subscriptionId: this.wishlist?.find(item => item.subscriptionId === subscription_id)?.subscriptionId,
+      subscriptionDuration: this.wishlist?.find(item => item.subscriptionId === subscription_id)?.daysAmount
+    }
+    this.userService.toggleWishlistItem(wishlistData).subscribe(() => this.removeSubscriptionFromWishlist(wishlistData.subscriptionId!));
+  }
+
+  private removeSubscriptionFromWishlist(subscription_id: number): void {
+    this.wishlist = this.wishlist?.filter((item: Wishlist) => item.subscriptionId !== subscription_id);
+  }
+
 }
