@@ -12,4 +12,9 @@ export class WishlistComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  public calculateTotalPrice(subscription_id: number): number {
+    let wishlistItem: Wishlist | undefined = this.wishlist?.find(item => item.subscriptionId === subscription_id);
+    return Math.round(wishlistItem?.daysAmount! * wishlistItem?.subscription?.pricePerDay!);
+  }
+
 }
