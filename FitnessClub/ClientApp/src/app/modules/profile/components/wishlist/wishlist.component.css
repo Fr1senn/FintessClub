@@ -1,0 +1,4 @@
+tbody tr:nth-child(odd) {
+  /*background-color: rgba(212, 176, 127, .4);*/
+  background-color: rgba(248, 239, 236, .4);
+}

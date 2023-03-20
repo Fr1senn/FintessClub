@@ -1,1 +1,26 @@
-<p>wishlist works!</p>
+<table class="border w-3/4 mx-auto my-3">
+  <thead>
+  <tr style="background-color: var(--primary-color)">
+    <th>Subscription</th>
+    <th>Amount of Days</th>
+    <th>Total Price</th>
+    <th>Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of wishlist" class="text-center border">
+    <td>{{item.subscription?.title}}</td>
+    <td>{{item.daysAmount}}</td>
+    <td>{{calculateTotalPrice(+item.subscriptionId!) | currency}}</td>
+    <td class="space-x-2.5 flex items-center justify-center">
+      <button class="border">Buy</button>
+      <button>
+        <img class="w-5" src="assets/icons/edit_icon.svg" alt="">
+      </button>
+      <button>
+        <img class="w-5" src="assets/icons/heart_filled_icon.svg" alt="">
+      </button>
+    </td>
+  </tr>
+  </tbody>
+</table>
