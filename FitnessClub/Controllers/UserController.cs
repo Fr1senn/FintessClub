@@ -30,6 +30,7 @@ namespace FitnessClub.Controllers
                 .Include(u => u.Reviews)
                 .ThenInclude(r => r.Subscription)
                 .Include(u => u.Wishlists)
+                .ThenInclude(w => w.Subscription)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -38,21 +39,24 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("ToggleWishlistItem")]
-        public async Task<IActionResult> ToggleWishlistItem([FromBody] int subscriptionId)
+        public async Task<IActionResult> ToggleWishlistItem([FromBody] WishlistData wishlistData)
         {
-            Subscription? subscription = await _context.Subscriptions.FindAsync(subscriptionId);
+            if (wishlistData.subscriptionDuration <= 0) return BadRequest("You can't set");
+            
+            Subscription? subscription = await _context.Subscriptions.FindAsync(wishlistData.subscriptionId);
             if (subscription is null)
                 return BadRequest("There is no product with such id");
 
             int id = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
             User? currentUser =
                 await _context.Users.Include(u => u.Wishlists).AsNoTracking().FirstAsync(u => u.Id == id);
-            Wishlist? wishlistItem = currentUser.Wishlists.FirstOrDefault(w => w.SubscriptionId == subscriptionId);
+            Wishlist? wishlistItem = currentUser.Wishlists.FirstOrDefault(w => w.SubscriptionId == wishlistData.subscriptionId);
             if (wishlistItem is null)
                 await _context.Wishlists.AddAsync(new Wishlist
                 {
                     UserId = currentUser.Id,
-                    SubscriptionId = subscriptionId,
+                    SubscriptionId = wishlistData.subscriptionId,
+                    DaysAmount = wishlistData.subscriptionDuration
                 });
             else
                 _context.Wishlists.Remove(wishlistItem);

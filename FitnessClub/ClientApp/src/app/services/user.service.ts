@@ -27,7 +27,8 @@ export class UserService {
     return this.http.get<User>(this.apiUrl + '/User/GetCurrentUser');
   }
 
-  public toggleWishlistItem(subscriptionId: number): Observable<Subscription> {
-    return this.http.post<Subscription>(this.apiUrl + "/User/ToggleWishlistItem", subscriptionId, {responseType: "text" as "json"});
+  public toggleWishlistItem(wishlistData: Object): Observable<Subscription> {
+    console.log(wishlistData);
+    return this.http.post<Subscription>(this.apiUrl + "/User/ToggleWishlistItem", wishlistData, {responseType: "text" as "json"});
   }
 }

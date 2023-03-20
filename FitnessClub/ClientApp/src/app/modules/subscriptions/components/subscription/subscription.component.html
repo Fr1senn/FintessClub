@@ -7,9 +7,6 @@
     <div>
       <div class="flex items-center justify-center space-x-4">
         <h3 class="text-center text-2xl font-bold">{{subscription.title}}</h3>
-        <button (click)="reviews.showModal()" class="hover:scale-105 duration-300">
-          <img class="h-9 w-9" src="https://cdn-icons-png.flaticon.com/512/2438/2438002.png" alt="">
-        </button>
       </div>
       <div class="flex items-center justify-center space-x-2">
         <ng-container *ngIf="isDiscountActive(); else isNotActive">
@@ -32,6 +29,24 @@
             </ng-template>
           </ng-container>
         </div>
+      </div>
+      <div class="w-1/4 mx-auto flex justify-between">
+        <button (click)="reviews.showModal()" class="hover:scale-105 duration-300">
+          <img class="h-9 w-9" src="https://cdn-icons-png.flaticon.com/512/2438/2438002.png" alt="">
+        </button>
+        <ng-container *ngIf="isUserAuthenticated">
+          <ng-container *ngIf="isInWishlist;else notInWishlist">
+            <button (click)="toggleWishlistItem()" class="hover:scale-105 duration-300">
+              <img class="h-8 w-8" src="assets/icons/heart_filled_icon.svg" alt="">
+            </button>
+          </ng-container>
+          <ng-template #notInWishlist>
+            <button (click)="wishlistDaysAmount.showModal()" class="hover:scale-105 duration-300">
+              <img class="h-8 w-8" src="assets/icons/heart_unfilled_icon.svg" alt="">
+            </button>
+          </ng-template>
+        </ng-container>
+
       </div>
       <button (click)="buySubscription.showModal()"
               class="border-t-2 w-full text-lg font-medium p-0.5 rounded-t duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
@@ -87,7 +102,7 @@
     </button>
   </div>
   <div class="1/2 mx-auto my-2">
-    <h3 class="text-xl font-medium text-center">Total price: {{calculateTotalPrice()}}</h3>
+    <h3 class="text-xl font-medium text-center">Total price: {{calculateTotalPrice() | currency}}</h3>
   </div>
   <div class="w-1/3 mx-auto my-2">
     <button (click)="buySubscription.showModal()"
@@ -95,5 +110,41 @@
             style="border-color: var(--primary-color)">
       Buy
     </button>
+  </div>
+</dialog>
+
+
+<dialog #wishlistDaysAmount class="fixed top-1/2 left-1/2 h-1/2 w-1/2 border border-2 rounded rounder-lg overflow-auto"
+        style="border-color: var(--primary-color); transform: translate(-50%, -50%); background-color: var(--background-color)">
+  <div class="flex justify-end sticky top-0">
+    <button class="text-2xl" (click)="wishlistDaysAmount.close()">&times;</button>
+  </div>
+  <h3 class="text-center font-medium text-lg">Choose subscription duration:</h3>
+  <div class="flex flex-col">
+    <div class="flex justify-center w-1/2 mx-auto">
+      <button (click)="increaseDaysBy(-5)" class="p-1 rounded-l border-r-2 border-black font-medium text-lg"
+              style="background-color: var(--primary-color)">-5
+      </button>
+      <button (click)="increaseDaysBy(-1)" class="p-1 font-medium" style="background-color: var(--primary-color)">-1
+      </button>
+      <input [(ngModel)]="subscriptionDuration" class="w-2/5 text-center border border-2 mx-0.5 rounded"
+             style="background-color: var(--background-color); border-color: var(--primary-color)" type="number"
+             min="1">
+      <button (click)="increaseDaysBy(1)" class="p-1 font-medium" style="background-color: var(--primary-color)">+1
+      </button>
+      <button (click)="increaseDaysBy(5)" class="p-1 rounded-r border-l-2 border-black font-medium"
+              style="background-color: var(--primary-color)">+5
+      </button>
+    </div>
+    <div class="flex items-center justify-evenly w-1/4 mx-auto my-3 space-x-3">
+      <button (click)="wishlistDaysAmount.close()"
+              class="border-2 w-full text-lg font-medium p-0.5 rounded duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
+              style="border-color: var(--primary-color)">Cancel
+      </button>
+      <button (click)="toggleWishlistItem(); wishlistDaysAmount.close()"
+              class="border-2 w-full text-lg font-medium p-0.5 rounded duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
+              style="border-color: var(--primary-color)">Submit
+      </button>
+    </div>
   </div>
 </dialog>
