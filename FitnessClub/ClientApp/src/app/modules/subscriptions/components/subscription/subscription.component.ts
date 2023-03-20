@@ -60,7 +60,6 @@ export class SubscriptionComponent implements OnInit {
     let wishlistData = {
       subscriptionId: this.subscription?.id,
       subscriptionDuration: this.subscriptionDuration
-
     }
     this.userService.toggleWishlistItem(wishlistData).subscribe(() => this.isInWishlist = !this.isInWishlist);
   }

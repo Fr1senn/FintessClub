@@ -2,6 +2,6 @@
 
 public class WishlistData
 {
-    public int subscriptionId { get; }
-    public int subscriptionDuration { get; }
+    public int subscriptionId { get; set; }
+    public int subscriptionDuration { get; set; }
 }
