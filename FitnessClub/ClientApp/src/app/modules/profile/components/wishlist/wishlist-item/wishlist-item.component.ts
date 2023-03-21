@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Wishlist } from "../../../../../models/wishlist";
 import { UserService } from "../../../../../services/user.service";
+import { Discount } from "../../../../../models/discount";
 
 @Component({
   selector: '[app-wishlist-item]',
@@ -23,6 +24,16 @@ export class WishlistItemComponent implements OnInit {
   }
 
   public calculateTotalPrice(): number {
+    let discount: Discount | undefined = this.wishlistItem?.subscription?.discounts.find((item: Discount) => {
+      if (item.subscriptionId === this.wishlistItem?.subscriptionId) {
+        return item;
+      }
+      return undefined;
+    })
+    if (discount?.isActive) {
+      let wishlistItemPriceWithDiscount = this.wishlistItem?.subscription?.pricePerDay! - (this.wishlistItem?.subscription?.pricePerDay! * discount.discountPercentage / 100)
+      return wishlistItemPriceWithDiscount * this.wishlistItem?.daysAmount!;
+    }
     return Math.round(this.wishlistItem?.daysAmount! * this.wishlistItem?.subscription?.pricePerDay!);
   }
 
