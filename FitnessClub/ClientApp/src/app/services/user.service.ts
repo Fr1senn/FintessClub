@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { User } from "../models/user";
 import { Review } from "../models/review";
 import { Subscription } from "../models/subscription";
+import { Wishlist } from "../models/wishlist";
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,10 @@ export class UserService {
   }
 
   public toggleWishlistItem(wishlistData: Object): Observable<Subscription> {
-    return this.http.post<Subscription>(this.apiUrl + "/User/ToggleWishlistItem", wishlistData, {responseType: "text" as "json"});
+    return this.http.post<Subscription>(this.apiUrl + '/User/ToggleWishlistItem', wishlistData, {responseType: "text" as "json"});
+  }
+
+  public updateWishlistItem(wishlistItem: Object): Observable<Wishlist> {
+    return this.http.patch<Wishlist>(this.apiUrl + '/User/UpdateWishlistItem', wishlistItem, {responseType: "text" as "json"});
   }
 }
