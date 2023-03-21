@@ -8,19 +8,7 @@
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let item of wishlist" class="text-center border">
-    <td>{{item.subscription?.title}}</td>
-    <td>{{item.daysAmount}}</td>
-    <td>{{calculateTotalPrice(+item.subscriptionId!) | currency}}</td>
-    <td class="space-x-2.5 flex items-center justify-center">
-      <button class="border">Buy</button>
-      <button>
-        <img class="w-5" src="assets/icons/edit_icon.svg" alt="">
-      </button>
-      <button (click)="toggleWishlistItem(item?.subscriptionId!)">
-        <img class="w-5" src="assets/icons/heart_filled_icon.svg" alt="">
-      </button>
-    </td>
-  </tr>
+  <tr app-wishlist-item *ngFor="let item of wishlist; index as i" [wishlistItem]="item"
+      (removeEvent)="removeSubscriptionFromWishlist(item?.id!)" class="text-center border"></tr>
   </tbody>
 </table>
