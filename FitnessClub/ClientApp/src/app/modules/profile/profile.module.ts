@@ -8,6 +8,7 @@ import { UserReviewsComponent } from "./components/user-reviews/user-reviews.com
 import { UserReviewComponent } from "./components/user-reviews/user-review/user-review.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WishlistComponent } from "./components/wishlist/wishlist.component";
+import { WishlistItemComponent } from "./components/wishlist/wishlist-item/wishlist-item.component";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { WishlistComponent } from "./components/wishlist/wishlist.component";
     CredentialsComponent,
     UserReviewsComponent,
     UserReviewComponent,
-    WishlistComponent
+    WishlistComponent,
+    WishlistItemComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { WishlistComponent } from "./components/wishlist/wishlist.component";
     CredentialsComponent,
     UserReviewsComponent,
     UserReviewComponent,
-    WishlistComponent
+    WishlistComponent,
+    WishlistItemComponent
   ]
 })
 export class ProfileModule {
