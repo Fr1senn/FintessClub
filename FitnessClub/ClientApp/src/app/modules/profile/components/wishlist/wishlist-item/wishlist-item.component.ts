@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Wishlist } from "../../../../../models/wishlist";
 import { UserService } from "../../../../../services/user.service";
 import { Discount } from "../../../../../models/discount";
+import { SubscriptionService } from "../../../../../services/subscription.service";
 
 @Component({
   selector: '[app-wishlist-item]',
@@ -15,9 +16,18 @@ export class WishlistItemComponent implements OnInit {
   public subscriptionDuration: number | undefined;
 
   private readonly userService: UserService;
+  private readonly subscriptionService: SubscriptionService;
 
-  constructor(userService: UserService) {
+  constructor(userService: UserService, subscriptionService: SubscriptionService) {
     this.userService = userService;
+    this.subscriptionService = subscriptionService;
+
+    this.userService.currentUser.subscribe(user => {
+      this.userWishlist = user.wishlists;
+    });
+    this.subscriptionService.getSubscriptions().subscribe((data: Object) => {
+      this.subscriptions = Object.values(data);
+    });
   }
 
   ngOnInit(): void {
