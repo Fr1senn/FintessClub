@@ -70,4 +70,7 @@ export class WishlistItemComponent implements OnInit {
     });
   }
 
+  public isSubscriptionInWishlist(subscriptionId: number) {
+    return !!this.userWishlist?.find(item => item.subscriptionId === subscriptionId);
+  }
 }
