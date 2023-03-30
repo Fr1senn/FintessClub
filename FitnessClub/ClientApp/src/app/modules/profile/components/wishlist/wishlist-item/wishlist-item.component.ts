@@ -70,6 +70,10 @@ export class WishlistItemComponent implements OnInit {
     });
   }
 
+  public setSubscriptionTitle() {
+    this.subscriptionTitle = this.wishlistItem?.subscription?.title;
+  }
+
   public isSubscriptionInWishlist(subscriptionId: number) {
     return !!this.userWishlist?.find(item => item.subscriptionId === subscriptionId);
   }
