@@ -1,4 +1,16 @@
-<td>{{wishlistItem?.subscription?.title!}}</td>
+<td *ngIf="!isEditing">{{wishlistItem?.subscription?.title!}}</td>
+<td *ngIf="isEditing">
+  <select [(ngModel)]="subscriptionTitle" class="border text-center">
+    <ng-container *ngFor="let subscription of subscriptions">
+      <option
+        *ngIf="subscription.title === wishlistItem?.subscription?.title! || isSubscriptionInWishlist(subscription.id); else allowedToChoose"
+        class="font-medium" disabled>{{subscription.title}}</option>
+      <ng-template #allowedToChoose>
+        <option>{{subscription.title}}</option>
+      </ng-template>
+    </ng-container>
+  </select>
+</td>
 <td *ngIf="!isEditing">{{wishlistItem?.daysAmount}}</td>
 <td *ngIf="isEditing">
   <div class="w-1/2 mx-auto flex items-center justify-center">
@@ -26,10 +38,10 @@
     </div>
   </div>
 </td>
-<td>{{calculateTotalPrice() | currency}}</td>
+<td>{{calculateTotalPrice(wishlistItem?.subscription?.pricePerDay!, wishlistItem?.daysAmount!) | currency}}</td>
 <td class="space-x-2.5 flex items-center justify-center">
   <button class="border">Buy</button>
-  <button (click)="subscriptionDuration=wishlistItem?.daysAmount!;isEditing=!isEditing">
+  <button (click)="subscriptionDuration=wishlistItem?.daysAmount!;isEditing=!isEditing;setSubscriptionTitle()">
     <img class="w-5" src="assets/icons/edit_icon.svg" alt="">
   </button>
   <button (click)="toggleWishlistItem()">
