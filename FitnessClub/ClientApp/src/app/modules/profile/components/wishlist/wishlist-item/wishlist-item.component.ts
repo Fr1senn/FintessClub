@@ -23,7 +23,7 @@ export class WishlistItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public calculateTotalPrice(): number {
+  public calculateTotalPrice(subscriptionPricePerDay: number, daysAmount: number): number {
     let discount: Discount | undefined = this.wishlistItem?.subscription?.discounts.find((item: Discount) => {
       if (item.subscriptionId === this.wishlistItem?.subscriptionId) {
         return item;
@@ -31,10 +31,10 @@ export class WishlistItemComponent implements OnInit {
       return undefined;
     })
     if (discount?.isActive) {
-      let wishlistItemPriceWithDiscount = this.wishlistItem?.subscription?.pricePerDay! - (this.wishlistItem?.subscription?.pricePerDay! * discount.discountPercentage / 100)
-      return wishlistItemPriceWithDiscount * this.wishlistItem?.daysAmount!;
+      let wishlistItemPriceWithDiscount = subscriptionPricePerDay - (subscriptionPricePerDay * discount.discountPercentage / 100)
+      return wishlistItemPriceWithDiscount * daysAmount;
     }
-    return Math.round(this.wishlistItem?.daysAmount! * this.wishlistItem?.subscription?.pricePerDay!);
+    return Math.round(daysAmount * subscriptionPricePerDay);
   }
 
   public increaseDaysBy(days: number): number {
