@@ -17,7 +17,8 @@ export class WishlistItemComponent implements OnInit {
   public subscriptionDuration: number | undefined;
   public subscriptionTitle: string | undefined;
   public subscriptions: Subscription[] | undefined;
-
+  
+  private userWishlist: Wishlist[] | undefined;
   private readonly userService: UserService;
   private readonly subscriptionService: SubscriptionService;
 
