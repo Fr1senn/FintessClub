@@ -3,6 +3,7 @@ import { Subscription } from "../../../../models/subscription";
 import { Discount } from "../../../../models/discount";
 import { AuthService } from "../../../../services/auth.service";
 import { UserService } from "../../../../services/user.service";
+import { WishlistService } from 'src/app/services/wishlist.service';
 
 @Component({
   selector: 'app-subscription',
@@ -15,15 +16,17 @@ export class SubscriptionComponent implements OnInit {
   public isInWishlist: boolean = false;
 
   private readonly authService: AuthService;
-  private readonly userService: UserService
+  private readonly userService: UserService;
+  private readonly wishlistService: WishlistService;
 
   public get isUserAuthenticated() {
     return this.authService.isUserAuthenticated();
   }
 
-  constructor(authService: AuthService, userService: UserService) {
+  constructor(authService: AuthService, userService: UserService, wishlistService: WishlistService) {
     this.authService = authService;
     this.userService = userService;
+    this.wishlistService = wishlistService;
   }
 
   ngOnInit(): void {
@@ -61,7 +64,7 @@ export class SubscriptionComponent implements OnInit {
       subscriptionId: this.subscription?.id,
       subscriptionDuration: this.subscriptionDuration
     }
-    this.userService.toggleWishlistItem(wishlistData).subscribe(() => this.isInWishlist = !this.isInWishlist);
+    this.wishlistService.toggleWishlistItem(wishlistData).subscribe(() => this.isInWishlist = !this.isInWishlist);
   }
 
   private checkIfInWishlist(): void {

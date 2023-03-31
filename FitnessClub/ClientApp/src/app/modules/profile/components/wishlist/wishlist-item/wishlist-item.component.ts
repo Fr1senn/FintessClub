@@ -4,6 +4,7 @@ import { UserService } from "../../../../../services/user.service";
 import { Discount } from "../../../../../models/discount";
 import { SubscriptionService } from "../../../../../services/subscription.service";
 import { Subscription } from "../../../../../models/subscription";
+import { WishlistService } from 'src/app/services/wishlist.service';
 
 @Component({
   selector: '[app-wishlist-item]',
@@ -20,11 +21,14 @@ export class WishlistItemComponent implements OnInit {
   
   private userWishlist: Wishlist[] | undefined;
   private readonly userService: UserService;
+  private readonly wishlistService: WishlistService;
+
   private readonly subscriptionService: SubscriptionService;
 
-  constructor(userService: UserService, subscriptionService: SubscriptionService) {
+  constructor(userService: UserService, subscriptionService: SubscriptionService, wishlistService: WishlistService) {
     this.userService = userService;
     this.subscriptionService = subscriptionService;
+    this.wishlistService = wishlistService;
 
     this.userService.currentUser.subscribe(user => {
       this.userWishlist = user.wishlists;
@@ -60,7 +64,7 @@ export class WishlistItemComponent implements OnInit {
       subscriptionId: this.wishlistItem?.subscriptionId,
       subscriptionDuration: this.wishlistItem?.daysAmount
     }
-    this.userService.toggleWishlistItem(wishlistData).subscribe(() => this.removeEvent.emit());
+    this.wishlistService.toggleWishlistItem(wishlistData).subscribe(() => this.removeEvent.emit());
   }
 
   public updateWishlistItem(): void {
@@ -69,7 +73,7 @@ export class WishlistItemComponent implements OnInit {
       subscriptionId: this.subscriptions?.find((subscription: Subscription) => subscription.title === this.subscriptionTitle)?.id!,
       subscriptionDuration: this.subscriptionDuration
     };
-    this.userService.updateWishlistItem(wishlistItem).subscribe(() => {
+    this.wishlistService.updateWishlistItem(wishlistItem).subscribe(() => {
       this.isEditing = false;
       this.wishlistItem!.daysAmount = this.subscriptionDuration!;
       this.wishlistItem!.subscription!.title = this.subscriptionTitle!;
