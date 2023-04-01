@@ -15,9 +15,7 @@ public partial class Order
 
     public int? SubscriptionId { get; set; }
 
-    public int? DurationId { get; set; }
-
-    public virtual Duration? Duration { get; set; }
+    public int? DaysAmount { get; set; }
 
     public virtual Subscription? Subscription { get; set; }
 

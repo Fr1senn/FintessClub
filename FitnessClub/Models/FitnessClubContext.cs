@@ -27,8 +27,6 @@ public partial class FitnessClubContext : DbContext
 
     public virtual DbSet<Discount> Discounts { get; set; }
 
-    public virtual DbSet<Duration> Durations { get; set; }
-
     public virtual DbSet<Exercise> Exercises { get; set; }
 
     public virtual DbSet<Order> Orders { get; set; }
@@ -88,18 +86,6 @@ public partial class FitnessClubContext : DbContext
                 .HasConstraintName("discounts_subscriptioni_d_fkey");
         });
 
-        modelBuilder.Entity<Duration>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("durations_pkey");
-
-            entity.ToTable("durations");
-
-            entity.HasIndex(e => e.DurationInDays, "durations_duration_in_days_key").IsUnique();
-
-            entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DurationInDays).HasColumnName("duration_in_days");
-        });
-
         modelBuilder.Entity<Exercise>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("exercises_pkey");
@@ -121,7 +107,7 @@ public partial class FitnessClubContext : DbContext
             entity.ToTable("orders");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.DurationId).HasColumnName("duration_id");
+            entity.Property(e => e.DaysAmount).HasColumnName("days_amount");
             entity.Property(e => e.Price)
                 .HasPrecision(7, 2)
                 .HasColumnName("price");
@@ -130,10 +116,6 @@ public partial class FitnessClubContext : DbContext
                 .HasColumnName("purchase_date");
             entity.Property(e => e.SubscriptionId).HasColumnName("subscription_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-
-            entity.HasOne(d => d.Duration).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.DurationId)
-                .HasConstraintName("orders_duration_id_fkey");
 
             entity.HasOne(d => d.Subscription).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.SubscriptionId)
@@ -261,6 +243,8 @@ public partial class FitnessClubContext : DbContext
             entity.HasKey(e => e.Id).HasName("wishlists_pkey");
 
             entity.ToTable("wishlists");
+
+            entity.HasIndex(e => new { e.SubscriptionId, e.UserId }, "unique_user_subscription").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.DaysAmount).HasColumnName("days_amount");
