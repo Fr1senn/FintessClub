@@ -1,6 +1,6 @@
 ﻿namespace FitnessClub.Models;
 
-public class WishlistData
+public class WishlistDTO
 {
     public int Id { get; set; }
     public int SubscriptionId { get; set; }
