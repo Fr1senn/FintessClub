@@ -4,6 +4,8 @@ import { Discount } from "../../../../models/discount";
 import { AuthService } from "../../../../services/auth.service";
 import { UserService } from "../../../../services/user.service";
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { OrderService } from 'src/app/services/order.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-subscription',
@@ -15,18 +17,26 @@ export class SubscriptionComponent implements OnInit {
   public subscriptionDuration: number = 1;
   public isInWishlist: boolean = false;
 
+  private userId: number | undefined;
   private readonly authService: AuthService;
   private readonly userService: UserService;
   private readonly wishlistService: WishlistService;
+  private readonly orderService: OrderService;
+  private readonly router: Router;
 
   public get isUserAuthenticated() {
     return this.authService.isUserAuthenticated();
   }
 
-  constructor(authService: AuthService, userService: UserService, wishlistService: WishlistService) {
+  constructor(authService: AuthService, userService: UserService, wishlistService: WishlistService, orderService: OrderService, router: Router) {
     this.authService = authService;
     this.userService = userService;
     this.wishlistService = wishlistService;
+    this.orderService = orderService;
+    this.router = router;
+
+    if (this.isUserAuthenticated)
+      this.userService.currentUser.subscribe(user => this.userId = user.id);
   }
 
   ngOnInit(): void {
@@ -67,11 +77,26 @@ export class SubscriptionComponent implements OnInit {
     this.wishlistService.toggleWishlistItem(wishlistData).subscribe(() => this.isInWishlist = !this.isInWishlist);
   }
 
+  public buySubscription(): void {
+    if (!this.isUserAuthenticated) this.router.navigate(['']);
+
+    let orderData = {
+      userId: this.userId,
+      subscriptionId: this.subscription?.id,
+      daysAmount: this.subscriptionDuration
+    }
+
+    this.orderService.buySubscription(orderData).subscribe(() => this.isInWishlist = false);
+  }
+
   private checkIfInWishlist(): void {
-    this.userService.currentUser.subscribe(user => {
-      if (this.findProductInWishlist(user.wishlists.sort((a: any, b: any) => a.subscriptionId - b.subscriptionId), this.subscription!.id) !== -1)
-        this.isInWishlist = true;
-    });
+    if (this.isUserAuthenticated) {
+      this.userService.currentUser.subscribe(user => {
+        if (this.findProductInWishlist(user.wishlists.sort((a: any, b: any) => a.subscriptionId - b.subscriptionId), this.subscription!.id) !== -1)
+          this.isInWishlist = true;
+      });
+    }
+
   }
 
   private findProductInWishlist(wishlist: any[], target: number): number {
