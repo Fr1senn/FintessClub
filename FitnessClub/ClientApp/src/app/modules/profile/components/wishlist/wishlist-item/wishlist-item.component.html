@@ -15,18 +15,18 @@
 <td *ngIf="isEditing">
   <div class="w-1/2 mx-auto flex items-center justify-center">
     <button (click)="increaseDaysBy(-5)" class="border-2 rounded-l"
-            style="border-color: var(--primary-color); background-color: var(--primary-color)">-5
+      style="border-color: var(--primary-color); background-color: var(--primary-color)">-5
     </button>
     <button (click)="increaseDaysBy(-1)" class="border-2"
-            style="border-color: var(--primary-color); background-color: var(--primary-color)">-1
+      style="border-color: var(--primary-color); background-color: var(--primary-color)">-1
     </button>
     <input [(ngModel)]="subscriptionDuration" class="border-2 w-1/5 text-center"
-           style="border-color: var(--primary-color)" type="number">
+      style="border-color: var(--primary-color)" type="number">
     <button (click)="increaseDaysBy(1)" class="border-2"
-            style="border-color: var(--primary-color); background-color: var(--primary-color)">+1
+      style="border-color: var(--primary-color); background-color: var(--primary-color)">+1
     </button>
     <button (click)="increaseDaysBy(5)" class="border-2 rounded-r"
-            style="border-color: var(--primary-color); background-color: var(--primary-color)">-5
+      style="border-color: var(--primary-color); background-color: var(--primary-color)">-5
     </button>
     <div class="flex justify-center mx-1 space-x-1">
       <button (click)="updateWishlistItem()">
@@ -40,7 +40,8 @@
 </td>
 <td>{{calculateTotalPrice(wishlistItem?.subscription?.pricePerDay!, wishlistItem?.daysAmount!) | currency}}</td>
 <td class="space-x-2.5 flex items-center justify-center">
-  <button class="border">Buy</button>
+  <button (click)="buySubscription()" class="border border-2 p-0.5 px-1 rounded font-medium"
+    style="border-color: var(--primary-color);">Buy</button>
   <button (click)="subscriptionDuration=wishlistItem?.daysAmount!;isEditing=!isEditing;setSubscriptionTitle()">
     <img class="w-5" src="assets/icons/edit_icon.svg" alt="">
   </button>

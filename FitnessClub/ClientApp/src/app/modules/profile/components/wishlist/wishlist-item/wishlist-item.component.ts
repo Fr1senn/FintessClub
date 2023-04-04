@@ -5,6 +5,7 @@ import { Discount } from "../../../../../models/discount";
 import { SubscriptionService } from "../../../../../services/subscription.service";
 import { Subscription } from "../../../../../models/subscription";
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { OrderService } from 'src/app/services/order.service';
 
 @Component({
   selector: '[app-wishlist-item]',
@@ -18,17 +19,19 @@ export class WishlistItemComponent implements OnInit {
   public subscriptionDuration: number | undefined;
   public subscriptionTitle: string | undefined;
   public subscriptions: Subscription[] | undefined;
-  
+
   private userWishlist: Wishlist[] | undefined;
   private readonly userService: UserService;
   private readonly wishlistService: WishlistService;
+  private readonly orderService: OrderService;
 
   private readonly subscriptionService: SubscriptionService;
 
-  constructor(userService: UserService, subscriptionService: SubscriptionService, wishlistService: WishlistService) {
+  constructor(userService: UserService, subscriptionService: SubscriptionService, wishlistService: WishlistService, orderService: OrderService) {
     this.userService = userService;
     this.subscriptionService = subscriptionService;
     this.wishlistService = wishlistService;
+    this.orderService = orderService;
 
     this.userService.currentUser.subscribe(user => {
       this.userWishlist = user.wishlists;
@@ -78,6 +81,15 @@ export class WishlistItemComponent implements OnInit {
       this.wishlistItem!.daysAmount = this.subscriptionDuration!;
       this.wishlistItem!.subscription!.title = this.subscriptionTitle!;
     });
+  }
+
+  public buySubscription(): void {
+    let orderData = {
+      userId: this.wishlistItem?.userId,
+      subscriptionId: this.wishlistItem?.subscriptionId,
+      daysAmount: this.wishlistItem?.daysAmount
+    }
+    this.orderService.buySubscription(orderData).subscribe(() => this.removeEvent.emit());
   }
 
   public setSubscriptionTitle() {
