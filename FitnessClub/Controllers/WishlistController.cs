@@ -20,7 +20,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("ToggleWishlistItem")]
-        public async Task<IActionResult> ToggleWishlistItem([FromBody] WishlistData wishlistData)
+        public async Task<IActionResult> ToggleWishlistItem([FromBody] WishlistDTO wishlistData)
         {
             if (wishlistData.SubscriptionDuration < 1)
                 return BadRequest("You can't set the subscription duration to less than 1 day");
@@ -48,7 +48,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPatch("UpdateWishlistItem")]
-        public async Task<IActionResult> UpdateWishlistItem([FromBody] WishlistData wishlistData)
+        public async Task<IActionResult> UpdateWishlistItem([FromBody] WishlistDTO wishlistData)
         {
             if (wishlistData.SubscriptionDuration < 1)
                 return BadRequest("You can't set the subscription duration to less than 1 day");
