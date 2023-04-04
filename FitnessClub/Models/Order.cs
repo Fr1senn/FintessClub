@@ -20,4 +20,13 @@ public partial class Order
     public virtual Subscription? Subscription { get; set; }
 
     public virtual User? User { get; set; }
+
+    public Order() { }
+
+    public Order(int UserId, int SubscriptionId, int DaysAmount)
+    {
+        this.UserId = UserId;
+        this.SubscriptionId = SubscriptionId;
+        this.DaysAmount = DaysAmount;
+    }
 }
