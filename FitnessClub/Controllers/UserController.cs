@@ -32,6 +32,8 @@ namespace FitnessClub.Controllers
                 .Include(u => u.Wishlists)
                 .ThenInclude(w => w.Subscription)
                 .ThenInclude(s => s!.Discounts)
+                .Include(u => u.Orders)
+                .ThenInclude(o => o.Subscription)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
