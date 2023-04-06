@@ -9,6 +9,7 @@ import { UserReviewComponent } from "./components/user-reviews/user-review/user-
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WishlistComponent } from "./components/wishlist/wishlist.component";
 import { WishlistItemComponent } from "./components/wishlist/wishlist-item/wishlist-item.component";
+import { OrdersComponent } from './components/orders/orders.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { WishlistItemComponent } from "./components/wishlist/wishlist-item/wishl
     UserReviewsComponent,
     UserReviewComponent,
     WishlistComponent,
-    WishlistItemComponent
+    WishlistItemComponent,
+    OrdersComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { WishlistItemComponent } from "./components/wishlist/wishlist-item/wishl
         path: 'Profile', component: CredentialsComponent, canActivate: [NotAuthenticatedGuard],
         children: [
           {path: 'Reviews', component: UserReviewsComponent},
-          {path: 'Wishlist', component: WishlistComponent}
+          {path: 'Wishlist', component: WishlistComponent},
+          {path: 'Orders', component: OrdersComponent}
         ]
       }
     ]),
