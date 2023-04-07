@@ -1,18 +1,20 @@
 <table class="border w-3/4 mx-auto my-3">
-    <thead>
-        <tr style="background-color: var(--primary-color)">
-            <th>Purchase Date</th>
-            <th>Amount of Days</th>
-            <th>Subscritpion</th>
-            <th>Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let order of orders">
-            <td class="text-center">{{order.purchaseDate}}</td>
-            <td class="text-center">{{order.daysAmount}}</td>
-            <td class="text-center">{{order.subscription?.title}}</td>
-            <td class="text-center">{{order.price | currency}}</td>
-        </tr>
-    </tbody>
+  <thead>
+  <tr style="background-color: var(--primary-color)">
+    <th>Purchase Date</th>
+    <th>Amount of Days</th>
+    <th>Subscritpion</th>
+    <th>Price</th>
+    <th>Days Left</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let order of orders">
+    <td class="text-center">{{order.purchaseDate}}</td>
+    <td class="text-center">{{order.daysAmount}}</td>
+    <td class="text-center">{{order.subscription?.title}}</td>
+    <td class="text-center">{{order.price | currency}}</td>
+    <td class="text-center">{{calculateDaysLeft(order.purchaseDate, order.daysAmount)}}</td>
+  </tr>
+  </tbody>
 </table>
