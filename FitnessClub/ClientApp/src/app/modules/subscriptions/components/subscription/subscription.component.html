@@ -48,7 +48,7 @@
         </ng-container>
 
       </div>
-      <button *ngIf="isUserAuthenticated" (click)="buySubs.showModal()"
+      <button *ngIf="isUserAuthenticated && isAllowedToBuy" (click)="buySubs.showModal()"
               class="border-t-2 w-full text-lg font-medium p-0.5 rounded-t duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
               style="border-color: var(--primary-color)">
         Buy

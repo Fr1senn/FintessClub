@@ -1,11 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Subscription } from "../../../../models/subscription";
-import { Discount } from "../../../../models/discount";
-import { AuthService } from "../../../../services/auth.service";
-import { UserService } from "../../../../services/user.service";
-import { WishlistService } from 'src/app/services/wishlist.service';
-import { OrderService } from 'src/app/services/order.service';
-import { Router } from '@angular/router';
+import {Component, Input, OnInit} from '@angular/core';
+import {Subscription} from "../../../../models/subscription";
+import {Discount} from "../../../../models/discount";
+import {AuthService} from "../../../../services/auth.service";
+import {UserService} from "../../../../services/user.service";
+import {WishlistService} from 'src/app/services/wishlist.service';
+import {OrderService} from 'src/app/services/order.service';
+import {Router} from '@angular/router';
+import {Order} from "../../../../models/order";
 
 @Component({
   selector: 'app-subscription',
@@ -16,6 +17,7 @@ export class SubscriptionComponent implements OnInit {
   @Input() public subscription: Subscription | undefined;
   public subscriptionDuration: number = 1;
   public isInWishlist: boolean = false;
+  public isAllowedToBuy: boolean | undefined;
 
   private userId: number | undefined;
   private readonly authService: AuthService;
@@ -34,13 +36,29 @@ export class SubscriptionComponent implements OnInit {
     this.wishlistService = wishlistService;
     this.orderService = orderService;
     this.router = router;
+    this.isAllowedToBuy = this.isUserAuthenticated;
 
     if (this.isUserAuthenticated)
-      this.userService.currentUser.subscribe(user => this.userId = user.id);
+      this.userService.currentUser.subscribe(user => {
+        this.userId = user.id;
+        user.orders.forEach((order: Order) => {
+          if (order.subscriptionId === this.subscription?.id && order.userId === this.userId) {
+            let currentDate: Date = new Date();
+            let expirationDate: Date = new Date(new Date(order.purchaseDate).getTime() + (1000 * 60 * 60 * 24 * order.daysAmount));
+            this.isAllowedToBuy = currentDate >= expirationDate;
+          } else {
+            console.log('not in orders');
+          }
+        })
+      });
   }
 
   ngOnInit(): void {
     this.checkIfInWishlist();
+  }
+
+  public test() {
+    let currentDate: Date = new Date();
   }
 
   public calculateDiscountPrice(): number | undefined {
