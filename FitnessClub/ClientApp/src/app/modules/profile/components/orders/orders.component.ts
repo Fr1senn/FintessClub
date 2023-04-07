@@ -20,4 +20,10 @@ export class OrdersComponent implements OnInit {
     this.userService.currentUser.subscribe(user => this.orders = user.orders);
   }
 
+  public calculateDaysLeft(purchaseDate: Date, daysAmount: number) {
+    let currentDate: Date = new Date();
+    let expirationDate: Date = new Date(new Date(purchaseDate).getTime() + (1000 * 60 * 60 * 24 * daysAmount));
+    return Math.round((expirationDate.getTime() - currentDate.getTime()) / 86400000);
+  }
+
 }
