@@ -46,8 +46,6 @@ export class SubscriptionComponent implements OnInit {
             let currentDate: Date = new Date();
             let expirationDate: Date = new Date(new Date(order.purchaseDate).getTime() + (1000 * 60 * 60 * 24 * order.daysAmount));
             this.isAllowedToBuy = currentDate >= expirationDate;
-          } else {
-            console.log('not in orders');
           }
         })
       });
@@ -55,10 +53,6 @@ export class SubscriptionComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkIfInWishlist();
-  }
-
-  public test() {
-    let currentDate: Date = new Date();
   }
 
   public calculateDiscountPrice(): number | undefined {
