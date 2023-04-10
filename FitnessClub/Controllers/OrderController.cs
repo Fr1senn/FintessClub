@@ -26,23 +26,34 @@ namespace FitnessClub.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            if (orderData.DaysAmount < 1) return BadRequest("You can't set the subscription duration to less than 1 day");
+            if (orderData.DaysAmount < 1)
+                return BadRequest("You can't set the subscription duration to less than 1 day");
 
             Subscription? subscription = await _context.Subscriptions.FindAsync(orderData.SubscriptionId);
             if (subscription is null) return BadRequest("There is no such subscription");
 
-            User? user = await _context.Users.FindAsync(orderData.UserId);
+            User? user = await _context.Users
+                .Include(u => u.Orders)
+                .FirstOrDefaultAsync(u => u.Id == orderData.UserId);
             if (user is null) return BadRequest("Such user does not exist");
 
-            await _context.Orders.AddAsync(new Order
+            if (user.Orders.FirstOrDefault(o =>
+                    o.SubscriptionId == orderData.SubscriptionId && o.UserId == orderData.UserId) is not null)
             {
-                UserId = orderData.UserId,
-                SubscriptionId = orderData.SubscriptionId,
-                DaysAmount = orderData.DaysAmount
-            });
+                var currentDate = DateTime.Now;
+                var expirationDate = currentDate.AddDays(orderData.DaysAmount);
+                if (currentDate < expirationDate) return BadRequest("You already have this subscription");
+            }
+
+                await _context.Orders.AddAsync(new Order
+                {
+                    UserId = orderData.UserId,
+                    SubscriptionId = orderData.SubscriptionId,
+                    DaysAmount = orderData.DaysAmount
+                });
 
             Wishlist? wishlist = await _context.Wishlists
-            .FirstOrDefaultAsync(w => w.UserId == orderData.UserId && w.SubscriptionId == orderData.SubscriptionId);
+                .FirstOrDefaultAsync(w => w.UserId == orderData.UserId && w.SubscriptionId == orderData.SubscriptionId);
 
             if (wishlist is not null) _context.Remove(wishlist);
 
