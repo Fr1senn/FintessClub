@@ -34,9 +34,10 @@ namespace FitnessClub.Controllers
                 .ThenInclude(s => s!.Discounts)
                 .Include(u => u.Orders)
                 .ThenInclude(o => o.Subscription)
+                .Include(u => u.Attendances.OrderByDescending(a => a.AttendanceDate).Take(1))
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId);
-
+            
             if (user is null) return BadRequest("User not found");
             return Ok(user);
         }
