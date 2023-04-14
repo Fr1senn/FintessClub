@@ -30,6 +30,7 @@ import { OrdersComponent } from './components/orders/orders.component';
       {
         path: 'Profile', component: CredentialsComponent, canActivate: [NotAuthenticatedGuard],
         children: [
+          {path: '', redirectTo: 'Orders', pathMatch: 'full'},
           {path: 'Reviews', component: UserReviewsComponent},
           {path: 'Wishlist', component: WishlistComponent},
           {path: 'Orders', component: OrdersComponent}
