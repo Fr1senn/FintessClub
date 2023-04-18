@@ -16,6 +16,7 @@ import { FormsModule } from "@angular/forms";
     CommonModule,
     HttpClientModule,
     RouterModule.forRoot([
+      {path: '', redirectTo: 'Subscriptions', pathMatch: 'full'},
       {path: 'Subscriptions', component: SubscriptionsComponent}
     ]),
     FormsModule
