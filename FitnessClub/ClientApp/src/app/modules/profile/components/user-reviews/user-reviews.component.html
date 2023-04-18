@@ -1,3 +1,9 @@
-<ng-container *ngFor="let review of reviews">
-  <app-user-review [review]="review" (removeEvent)="remove(review.id)"></app-user-review>
+<ng-container *ngIf="reviews?.length !== 0; else emptyReviews">
+
+  <ng-container *ngFor="let review of reviews">
+    <app-user-review [review]="review" (removeEvent)="remove(review.id)"></app-user-review>
+  </ng-container>
 </ng-container>
+<ng-template #emptyReviews>
+  <h3 class="text-center text-xl font-medium text-gray-400 italic">You have no reviews yet</h3>
+</ng-template>
