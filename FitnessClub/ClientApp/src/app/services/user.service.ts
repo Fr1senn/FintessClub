@@ -6,6 +6,7 @@ import { User } from "../models/user";
 import { Review } from "../models/review";
 import { Subscription } from "../models/subscription";
 import { Wishlist } from "../models/wishlist";
+import { FormGroup } from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -26,5 +27,12 @@ export class UserService {
 
   public getCurrentUser(): Observable<User> {
     return this.http.get<User>(this.apiUrl + '/User/GetCurrentUser');
+  }
+
+  public updateUserCredentials(form: FormGroup) {
+    return this.http.patch(this.apiUrl + '/User/UpdateUserCredentials', form.getRawValue(), {
+      observe: "response",
+      responseType: "text" as "json"
+    });
   }
 }
