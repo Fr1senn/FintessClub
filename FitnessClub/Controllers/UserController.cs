@@ -37,9 +37,34 @@ namespace FitnessClub.Controllers
                 .Include(u => u.Attendances.OrderByDescending(a => a.AttendanceDate).Take(1))
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId);
-            
+
             if (user is null) return BadRequest("User not found");
             return Ok(user);
+        }
+
+        [HttpPatch("UpdateUserCredentials")]
+        public async Task<IActionResult> UpdateUserCredentials([FromBody] UpdateCredentialsModel updateCredentialsModel)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            int id = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
+            User? currentUserCredentials = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            User? user = await _context.Users
+                .Where(u => u.Email == updateCredentialsModel.Email && u.Email != currentUserCredentials!.Email)
+                .FirstOrDefaultAsync();
+
+            if (user is not null)
+                if (user.Email == updateCredentialsModel.Email)
+                    return BadRequest("The user with such email is already exists");
+            
+            user = currentUserCredentials;
+            user!.Email = updateCredentialsModel.Email;
+            
+            if (!String.IsNullOrEmpty(updateCredentialsModel.Password))
+                user!.Password = BCrypt.Net.BCrypt.HashPassword(updateCredentialsModel.Password);
+            
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
