@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { WishlistComponent } from "./components/wishlist/wishlist.component";
 import { WishlistItemComponent } from "./components/wishlist/wishlist-item/wishlist-item.component";
 import { OrdersComponent } from './components/orders/orders.component';
+import { UpdateCredentialsComponent } from "./components/update-credentials/update-credentials.component";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { OrdersComponent } from './components/orders/orders.component';
     UserReviewComponent,
     WishlistComponent,
     WishlistItemComponent,
-    OrdersComponent
+    OrdersComponent,
+    UpdateCredentialsComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { OrdersComponent } from './components/orders/orders.component';
           {path: '', redirectTo: 'Orders', pathMatch: 'full'},
           {path: 'Reviews', component: UserReviewsComponent},
           {path: 'Wishlist', component: WishlistComponent},
-          {path: 'Orders', component: OrdersComponent}
+          {path: 'Orders', component: OrdersComponent},
+          {path: 'Edit', component: UpdateCredentialsComponent}
         ]
       }
     ]),
@@ -43,7 +46,8 @@ import { OrdersComponent } from './components/orders/orders.component';
     UserReviewsComponent,
     UserReviewComponent,
     WishlistComponent,
-    WishlistItemComponent
+    WishlistItemComponent,
+    UpdateCredentialsComponent
   ]
 })
 export class ProfileModule {
