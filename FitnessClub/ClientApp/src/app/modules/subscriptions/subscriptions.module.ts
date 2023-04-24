@@ -5,6 +5,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { SubscriptionsComponent } from "./components/subscriptions/subscriptions.component";
 import { SubscriptionComponent } from "./components/subscription/subscription.component";
 import { FormsModule } from "@angular/forms";
+import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
 
 @NgModule({
@@ -12,15 +13,16 @@ import { FormsModule } from "@angular/forms";
     SubscriptionsComponent,
     SubscriptionComponent,
   ],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    RouterModule.forRoot([
-      {path: '', redirectTo: 'Subscriptions', pathMatch: 'full'},
-      {path: 'Subscriptions', component: SubscriptionsComponent}
-    ]),
-    FormsModule
-  ],
+    imports: [
+        CommonModule,
+        HttpClientModule,
+        RouterModule.forRoot([
+            {path: '', redirectTo: 'Subscriptions', pathMatch: 'full'},
+            {path: 'Subscriptions', component: SubscriptionsComponent}
+        ]),
+        FormsModule,
+      NgxSliderModule
+    ],
   exports: [
     SubscriptionsComponent,
     SubscriptionComponent
