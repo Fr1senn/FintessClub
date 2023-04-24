@@ -20,4 +20,8 @@ export class SubscriptionService {
   public getSubscription(id: number) {
     return this.http.get(this.apiUrl + `/Subscription/${id}`);
   }
+
+  public getSubscriptionBySearchedValue(subscriptionTitle: string) {
+    return this.http.get(this.apiUrl + '/Subscription/GetSubscriptionsBySearchedValue', {params: {'subscriptionTitle': subscriptionTitle}});
+  }
 }

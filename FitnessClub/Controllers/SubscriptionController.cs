@@ -37,5 +37,17 @@ namespace FitnessClub.Controllers
                 .FirstOrDefaultAsync(s => s.Id == id);
             return Ok(subscription);
         }
+
+        [HttpGet("GetSubscriptionsBySearchedValue")]
+        public async Task<IActionResult> GetSubscriptionsBySearchedValue(string subscriptionTitle)
+        {
+            return Ok(await _context.Subscriptions
+                .Include(s => s.Discounts)
+                .Include(s => s.Reviews)
+                .ThenInclude(r => r.User)
+                .AsNoTracking()
+                .Where(s => s.Title.ToLower().Contains(subscriptionTitle.ToLower()))
+                .ToListAsync());
+        }
     }
 }
