@@ -5,12 +5,12 @@
       <div class="flex items-center space-x-4">
         <ul class="flex items-center space-x-2">
           <li *ngIf="isLoggedIn" [routerLink]="['Profile']"
-              class="text-lg font-medium p-1 border-2 rounded border-black hover:cursor-pointer duration-[250ms] hover:scale-110">
-            Profile
+              class="text-lg font-medium hover:cursor-pointer duration-[250ms] hover:scale-110">
+            <img class="h-8 w-8" src="assets/icons/profile_icon.svg" alt="">
           </li>
           <li *ngIf="isLoggedIn" (click)="logout()"
-              class="text-lg font-medium p-1 border-2 rounded border-black hover:cursor-pointer duration-[250ms] hover:scale-110">
-            Sign Out
+              class="text-lg font-medium hover:cursor-pointer duration-[250ms] hover:scale-110">
+            <img class="h-8 w-8" src="assets/icons/sign_out_icon.svg" alt="">
           </li>
           <li *ngIf="!isLoggedIn" [routerLink]="['Registration']"
               class="text-lg font-medium p-1 border-2 rounded border-black hover:cursor-pointer duration-[250ms] hover:scale-110">
