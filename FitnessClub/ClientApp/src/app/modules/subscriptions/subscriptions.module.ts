@@ -7,22 +7,21 @@ import { SubscriptionComponent } from "./components/subscription/subscription.co
 import { FormsModule } from "@angular/forms";
 import { NgxSliderModule } from '@angular-slider/ngx-slider';
 
-
 @NgModule({
   declarations: [
     SubscriptionsComponent,
     SubscriptionComponent,
   ],
-    imports: [
-        CommonModule,
-        HttpClientModule,
-        RouterModule.forRoot([
-            {path: '', redirectTo: 'Subscriptions', pathMatch: 'full'},
-            {path: 'Subscriptions', component: SubscriptionsComponent}
-        ]),
-        FormsModule,
-      NgxSliderModule
-    ],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    RouterModule.forRoot([
+      {path: '', redirectTo: 'Subscriptions', pathMatch: 'full'},
+      {path: 'Subscriptions', component: SubscriptionsComponent}
+    ]),
+    FormsModule,
+    NgxSliderModule
+  ],
   exports: [
     SubscriptionsComponent,
     SubscriptionComponent
