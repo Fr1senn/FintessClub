@@ -1,67 +1,54 @@
-<div *ngIf="subscription !== undefined">
-  <div class="border border-2 rounded border-[#d4b07f] w-full m-4">
-    <div class=" m-1">
-      <img src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" alt="">
-    </div>
-    <div class="h-[1px] border border-[#d4b07f] w-2/3 mx-auto"></div>
-    <div>
-      <div class="flex items-center justify-center space-x-4">
-        <h3 class="text-center text-2xl font-bold">{{subscription.title}}</h3>
-      </div>
-      <div class="flex items-center justify-center space-x-2">
-        <ng-container *ngIf="isDiscountActive(); else isNotActive">
-          <p class="text-3xl font-medium line-through">{{subscription.pricePerDay | currency}}</p>
-          <p class="text-3xl font-medium text-red-500">{{calculateDiscountPrice() | currency}}</p>
-          <span class="text-sm italic text-gray-500">Per Day</span>
-        </ng-container>
-        <ng-template #isNotActive>
-          <p class="text-3xl font-medium">{{subscription.pricePerDay | currency}}</p>
-          <span class="text-sm italic text-gray-500">Per Day</span>
-        </ng-template>
-      </div>
-      <div>
-        <div class="flex space-x-2 justify-center w-1/2 mx-auto my-2">
-          <ng-container *ngFor="let item of [].constructor(5);index as i">
-            <img *ngIf="i + 1 <= subscription.rating;else greaterThanRating" class="h-5 w-5"
-                 src="assets/icons/filled_rating_icon.svg" alt="">
-            <ng-template #greaterThanRating>
-              <img class="h-5 w-5" src="assets/icons/unfilled_rating_icon.svg" alt="">
-            </ng-template>
-          </ng-container>
-        </div>
-      </div>
-      <div class="w-1/4 mx-auto flex justify-between">
-        <button (click)="reviews.showModal()" class="hover:scale-105 duration-300">
-          <img class="h-9 w-9" src="https://cdn-icons-png.flaticon.com/512/2438/2438002.png" alt="">
-        </button>
-        <ng-container *ngIf="isUserAuthenticated">
-          <ng-container *ngIf="isInWishlist;else notInWishlist">
-            <button (click)="toggleWishlistItem()" class="hover:scale-105 duration-300">
-              <img class="h-8 w-8" src="assets/icons/heart_filled_icon.svg" alt="">
-            </button>
-          </ng-container>
-          <ng-template #notInWishlist>
-            <button (click)="wishlistDaysAmount.showModal()" class="hover:scale-105 duration-300">
-              <img class="h-8 w-8" src="assets/icons/heart_unfilled_icon.svg" alt="">
-            </button>
+<div class="border-2 w-4/6 mx-auto my-2 rounded" style="border-color: var(--primary-color)">
+  <div class="flex items-center justify-between mx-2">
+    <h3 class="text-xl font-medium">{{subscription?.title}}</h3>
+    <div class="flex items-center space-x-1">
+      <div class="flex space-x-2 justify-end">
+        <ng-container *ngFor="let item of [].constructor(5);index as i">
+          <img *ngIf="i + 1 <= subscription?.rating!; else greaterThanRating" class="h-5 w-5"
+               src="assets/icons/filled_rating_icon.svg" alt="">
+          <ng-template #greaterThanRating>
+            <img class="h-5 w-5" src="assets/icons/unfilled_rating_icon.svg" alt="">
           </ng-template>
         </ng-container>
-
       </div>
-      <ng-container *ngIf="isUserAuthenticated">
-        <button *ngIf="isUserAuthenticated && isAllowedToBuy; else allowedToBuy" (click)="buySubs.showModal()"
-                class="border-t-2 w-full text-lg font-medium p-0.5 rounded-t duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
-                style="border-color: var(--primary-color)">
-          Buy
-        </button>
+      <p (click)="reviews.showModal()" class="text-sm text-gray-500 hover:cursor-pointer">(<span
+        class="underline">{{subscription?.reviews?.length}} reviews</span>)</p>
+    </div>
+  </div>
+  <div class="flex items-center justify-between mx-2">
+    <div>
+      <ng-container *ngIf="isDiscountActive(); else discountIsNotActive">
+        <div class="flex items-center space-x-2">
+          <p class="text-lg text-red-500 line-through">{{subscription?.pricePerDay | currency}}</p>
+          <p class="text-lg">{{calculateDiscountPrice() | currency}}</p>
+          <span class="text-sm italic text-gray-500">Per Day</span>
+        </div>
       </ng-container>
-      <ng-template #allowedToBuy>
-        <div
-          class="text-center border-t-2 w-full text-lg font-medium p-0.5 rounded-t duration-200 bg-[#d4b07f] text-[#f8efec]"
-          style="border-color: var(--primary-color)">
-          <p>You already have this</p>
+      <ng-template #discountIsNotActive>
+        <div class="flex items-center space-x-2">
+          <p class="text-lg">{{subscription?.pricePerDay | currency}}</p>
+          <span class="text-sm italic text-gray-500">Per Day</span>
         </div>
       </ng-template>
+    </div>
+    <div *ngIf="isUserAuthenticated" class="flex items-center space-x-2">
+      <ng-container *ngIf="isUserAuthenticated">
+        <ng-container *ngIf="isInWishlist;else notInWishlist">
+          <button (click)="toggleWishlistItem()">
+            <img class="h-6 w-6" src="assets/icons/heart_filled_icon.svg" alt="">
+          </button>
+        </ng-container>
+        <ng-template #notInWishlist>
+          <button (click)="wishlistDaysAmount.showModal()">
+            <img class="h-6 w-6" src="assets/icons/heart_unfilled_icon.svg" alt="">
+          </button>
+        </ng-template>
+      </ng-container>
+      <ng-container *ngIf="isUserAuthenticated && isAllowedToBuy">
+        <button (click)="buySubs.showModal()">
+          <img class="h-6 w-6" src="assets/icons/wallet_icon.svg" alt="">
+        </button>
+      </ng-container>
     </div>
   </div>
 </div>
