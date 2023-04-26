@@ -1,0 +1,19 @@
+::ng-deep {
+  .ngx-slider {
+    .ngx-slider-selection {
+      background: var(--primary-color) !important;
+    }
+
+    .ngx-slider-pointer {
+      background: var(--primary-color) !important;
+    }
+
+    .ngx-slider-pointer:after {
+      background: var(--background-color) !important;
+    }
+
+    .ngx-slider .ngx-slider-bar {
+      background: #ffe4d1 !important;
+    }
+  }
+}
