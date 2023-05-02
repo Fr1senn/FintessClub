@@ -1,0 +1,15 @@
+<div class="flex">
+  <div class="w-1/6 border-2 border-red-500">
+    <ul>
+      <li class="border-b-2 m-1" style="border-color: var(--primary-color)">
+        <a [routerLink]="['Attendance']" [routerLinkActive]="['underline']" class="text-lg font-medium">Attendance</a>
+      </li>
+      <li class="border-b-2 m-1" style="border-color: var(--primary-color)">
+        <a class="text-lg font-medium">Subscriptions</a>
+      </li>
+    </ul>
+  </div>
+  <div class="w-5/6 border-2 border-green-500">
+    <router-outlet></router-outlet>
+  </div>
+</div>
