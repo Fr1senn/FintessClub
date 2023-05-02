@@ -2,6 +2,11 @@
   <div class="container mx-auto">
     <nav class="flex items-center justify-between py-2.5">
       <a [routerLink]="['']" class="text-3xl font-bold">Fitness Club</a>
+      <ul *ngIf="userRole !== 'user' && userRole !== 'guest'">
+        <li [routerLink]="['AdminPanel']"
+            class="text-lg font-medium hover:cursor-pointer duration-[250ms] hover:scale-110">Admin Panel
+        </li>
+      </ul>
       <div class="flex items-center space-x-4">
         <ul class="flex items-center space-x-2">
           <li *ngIf="isLoggedIn" [routerLink]="['Profile']"
