@@ -35,6 +35,7 @@ namespace FitnessClub.Controllers
                 .Include(u => u.Orders)
                 .ThenInclude(o => o.Subscription)
                 .Include(u => u.Attendances.OrderByDescending(a => a.AttendanceDate).Take(1))
+                .Include(u => u.Role)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
