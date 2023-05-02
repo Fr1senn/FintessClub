@@ -16,6 +16,7 @@ import { JwtExpirationInterceptor } from './interceptors/jwt-expiration.intercep
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { ProfileModule } from "./modules/profile/profile.module";
+import { AdminPanelModule } from "./modules/admin-panel/admin-panel.module";
 
 export function tokenGetter() {
   return localStorage.getItem('ACCESS_TOKEN_KEY');
@@ -39,6 +40,7 @@ export function tokenGetter() {
     ]),
     SubscriptionsModule,
     ProfileModule,
+    AdminPanelModule,
     ReactiveFormsModule,
     JwtModule.forRoot({
       config: {
