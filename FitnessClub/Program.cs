@@ -35,7 +35,8 @@ builder.Services.AddAuthentication(options =>
             ValidIssuer = "https://localhost:7123",
             ValidAudience = "https://localhost:7123",
             IssuerSigningKey =
-                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSecretKey"]!))
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTSecretKey"]!)),
+            RoleClaimType = "Role"
         };
     });
 
