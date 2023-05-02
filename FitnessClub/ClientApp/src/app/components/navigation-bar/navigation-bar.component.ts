@@ -9,6 +9,8 @@ import { UserService } from "../../services/user.service";
   styleUrls: ['./navigation-bar.component.css']
 })
 export class NavigationBarComponent implements OnInit {
+  public userRole: string = '';
+
   private readonly authService: AuthService;
   private readonly router: Router;
   private readonly userService: UserService;
@@ -24,6 +26,9 @@ export class NavigationBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.userService.currentUser.subscribe(user => {
+      this.userRole = user.role?.title!;
+    });
   }
 
   logout(): void {
