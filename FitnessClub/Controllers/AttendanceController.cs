@@ -28,6 +28,7 @@ namespace FitnessClub.Controllers
                 .ToListAsync();
             return Ok(attendance);
         }
+
         [HttpGet("GetAttandanceByUser")]
         public async Task<IActionResult> GetAttandanceByUser([FromQuery] string userFirstName, [FromQuery] string userLastName)
         {
@@ -40,12 +41,20 @@ namespace FitnessClub.Controllers
                 .ToListAsync();
             return Ok(attendance);
         }
+
+        [HttpGet("GetAttendanceFromTill")]
+        public async Task<IActionResult> GetAttendanceFromTill([FromQuery] DateOnly? attendanceDateFrom, [FromQuery] DateOnly? attendanceDateTill)
         {
-            var attendances = await _context.Attendances
+            attendanceDateFrom ??= DateOnly.MinValue;
+            attendanceDateTill ??= DateOnly.MaxValue;
+
+            List<Attendance> attendance = await _context.Attendances
                 .Include(a => a.User)
+                .Where(a => a.AttendanceDate >= attendanceDateFrom && a.AttendanceDate <= attendanceDateTill)
                 .AsNoTracking()
                 .ToListAsync();
-            return Ok(attendances);
+
+            return Ok(attendance);
         }
     }
 }
