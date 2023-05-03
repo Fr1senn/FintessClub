@@ -28,6 +28,18 @@ namespace FitnessClub.Controllers
                 .ToListAsync();
             return Ok(attendance);
         }
+        [HttpGet("GetAttandanceByUser")]
+        public async Task<IActionResult> GetAttandanceByUser([FromQuery] string userFirstName, [FromQuery] string userLastName)
+        {
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == userFirstName && u.LastName == userLastName);
+            if (user is null) return BadRequest();
+            List<Attendance> attendance = await _context.Attendances
+                .Include(a => a.User)
+                .Where(a => a.User.Id == user.Id)
+                .AsNoTracking()
+                .ToListAsync();
+            return Ok(attendance);
+        }
         {
             var attendances = await _context.Attendances
                 .Include(a => a.User)
