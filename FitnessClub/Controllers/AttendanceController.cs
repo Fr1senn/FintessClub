@@ -19,8 +19,15 @@ namespace FitnessClub.Controllers
             _context = context;
         }
 
-        [HttpGet("GetAttendances")]
-        public async Task<IActionResult> GetAttendances()
+        [HttpGet("GetAttendance")]
+        public async Task<IActionResult> GetAttendance()
+        {
+            List<Attendance> attendance = await _context.Attendances
+                .Include(a => a.User)
+                .AsNoTracking()
+                .ToListAsync();
+            return Ok(attendance);
+        }
         {
             var attendances = await _context.Attendances
                 .Include(a => a.User)
