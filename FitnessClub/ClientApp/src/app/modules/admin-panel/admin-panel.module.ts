@@ -4,6 +4,7 @@ import { AdminPanelComponent } from "./components/admin-panel/admin-panel.compon
 import { RouterModule } from "@angular/router";
 import { AttendanceComponent } from "./components/attendance/attendance.component";
 import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
+import { FormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
           {path: 'Attendance', component: AttendanceComponent},
         ]
       }
-    ])
+    ]),
+    FormsModule
   ],
   exports: [
     AdminPanelComponent,
