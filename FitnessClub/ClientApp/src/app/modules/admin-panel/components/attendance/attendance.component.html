@@ -1,1 +1,47 @@
-<p>attendance works!</p>
+<div class="w-full m-3 flex">
+  <div class="w-3/4">
+    <table class="border w-full mx-auto">
+      <thead>
+        <tr style="background-color: var(--primary-color)">
+          <th>Attendance Date</th>
+          <th>User</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let attendanceItem of attendance">
+          <td class="text-center">{{attendanceItem.attendanceDate}}</td>
+          <td class="text-center">{{attendanceItem?.user?.firstName}} {{attendanceItem?.user?.lastName}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="w-1/4">
+    <div class="flex space-x-1 px-2 justify-center items-end">
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">From: </label>
+        <input [(ngModel)]="attendanceFrom" type="date">
+      </div>
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">Till: </label>
+        <input [(ngModel)]="attendanceTill" type="date">
+      </div>
+      <img (click)="getAttendanceFromTill()" class="h-6 mb-0.5 hover:cursor-pointer" src="assets/icons/search_icon.svg">
+      <img (click)="getAttendance();attendanceFrom='';attendanceTill=''" class="h-6 mb-0.5 hover:cursor-pointer"
+           src="assets/icons/cancel_icon.svg">
+    </div>
+    <div class="flex flex-col px-2">
+      <label class="font-medium text-lg">By User:</label>
+      <div class="flex">
+        <select [(ngModel)]="userName" class="w-10/12">
+          <option *ngFor="let attendanceItem of getUniqueUsers()">{{attendanceItem?.user?.firstName}} {{attendanceItem?.user?.lastName}}</option>
+        </select>
+        <div class="w-1/12">
+          <img (click)="getAttendanceByUser()" class="hover:cursor-pointer" src="assets/icons/search_icon.svg" alt="" />
+        </div>
+        <div class="w-1/12">
+          <img (click)="getAttendance()" class="hover:cursor-pointer" src="assets/icons/cancel_icon.svg" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
