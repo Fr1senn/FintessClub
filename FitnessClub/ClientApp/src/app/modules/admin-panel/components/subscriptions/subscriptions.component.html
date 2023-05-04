@@ -1,1 +1,15 @@
-<p>subscriptions works!</p>
+<table class="border w-3/4 mx-auto my-3">
+  <thead>
+    <tr style="background-color: var(--primary-color)">
+      <th>Title</th>
+      <th>Price Per Day</th>
+      <th>Rating</th>
+      <th>Discount Percentage</th>
+      <th>Is Active?</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr app-subscription *ngFor="let subscription of subscriptions" [subscription]="subscription" class="text-center border"></tr>
+  </tbody>
+</table>
