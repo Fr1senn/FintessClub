@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
+import { Subscription } from '../models/subscription';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +25,9 @@ export class SubscriptionService {
 
   public getSubscriptionBySearchedValue(subscriptionTitle: string) {
     return this.http.get(this.apiUrl + '/Subscription/GetSubscriptionsBySearchedValue', {params: {'subscriptionTitle': subscriptionTitle}});
+  }
+
+  public updateSubscription(subscription: Object): Observable<Subscription> {
+    return this.http.post<Subscription>(this.apiUrl + '/Subscription/UpdateSubscription', subscription, { responseType: "text" as "json" });
   }
 }
