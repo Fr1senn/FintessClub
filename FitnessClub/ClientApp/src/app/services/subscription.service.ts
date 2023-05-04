@@ -15,8 +15,8 @@ export class SubscriptionService {
     this.http = http;
   }
 
-  public getSubscriptions() {
-    return this.http.get(this.apiUrl + '/Subscription/GetSubscriptions');
+  public getSubscriptions(): Observable<Subscription[]> {
+    return this.http.get<Subscription[]>(this.apiUrl + '/Subscription/GetSubscriptions');
   }
 
   public getSubscription(id: number) {
