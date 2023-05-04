@@ -5,14 +5,12 @@ import { RouterModule } from "@angular/router";
 import { AttendanceComponent } from "./components/attendance/attendance.component";
 import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
 import { FormsModule } from "@angular/forms";
-import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
 
 
 @NgModule({
   declarations: [
     AdminPanelComponent,
-    AttendanceComponent,
-    SubscriptionsComponent
+    AttendanceComponent
   ],
   imports: [
     CommonModule,
@@ -20,9 +18,7 @@ import { SubscriptionsComponent } from './components/subscriptions/subscriptions
       {
         path: 'AdminPanel', component: AdminPanelComponent, canActivate: [NotAuthenticatedGuard],
         children: [
-          {path: '', redirectTo: 'Attendance', pathMatch: 'full'},
-          { path: 'Attendance', component: AttendanceComponent },
-          { path: 'Subscriptions', component: SubscriptionsComponent }
+          {path: 'Attendance', component: AttendanceComponent},
         ]
       }
     ]),
@@ -30,8 +26,7 @@ import { SubscriptionsComponent } from './components/subscriptions/subscriptions
   ],
   exports: [
     AdminPanelComponent,
-    AttendanceComponent,
-    SubscriptionsComponent
+    AttendanceComponent
   ]
 })
 export class AdminPanelModule {
