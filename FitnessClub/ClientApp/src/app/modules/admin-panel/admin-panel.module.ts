@@ -6,13 +6,15 @@ import { AttendanceComponent } from "./components/attendance/attendance.componen
 import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
 import { FormsModule } from "@angular/forms";
 import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
+import { SubscriptionComponent } from './components/subscriptions/subscription/subscription.component';
 
 
 @NgModule({
   declarations: [
     AdminPanelComponent,
     AttendanceComponent,
-    SubscriptionsComponent
+    SubscriptionsComponent,
+    SubscriptionComponent
   ],
   imports: [
     CommonModule,
@@ -31,7 +33,8 @@ import { SubscriptionsComponent } from './components/subscriptions/subscriptions
   exports: [
     AdminPanelComponent,
     AttendanceComponent,
-    SubscriptionsComponent
+    SubscriptionsComponent,
+    SubscriptionComponent
   ]
 })
 export class AdminPanelModule {
