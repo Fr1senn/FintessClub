@@ -7,6 +7,7 @@ import { NotAuthenticatedGuard } from "../../guards/not-authenticated.guard";
 import { FormsModule } from "@angular/forms";
 import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
 import { SubscriptionComponent } from './components/subscriptions/subscription/subscription.component';
+import { StaffOnlyGuard } from '../../guards/staff-only.guard';
 
 
 @NgModule({
@@ -20,7 +21,7 @@ import { SubscriptionComponent } from './components/subscriptions/subscription/s
     CommonModule,
     RouterModule.forRoot([
       {
-        path: 'AdminPanel', component: AdminPanelComponent, canActivate: [NotAuthenticatedGuard],
+        path: 'AdminPanel', component: AdminPanelComponent, canActivate: [StaffOnlyGuard, NotAuthenticatedGuard],
         children: [
           { path: '', redirectTo: 'Attendance', pathMatch: 'full' },
           { path: 'Attendance', component: AttendanceComponent },
