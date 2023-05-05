@@ -3,9 +3,6 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import { Observable } from "rxjs";
 import { User } from "../models/user";
-import { Review } from "../models/review";
-import { Subscription } from "../models/subscription";
-import { Wishlist } from "../models/wishlist";
 import { FormGroup } from "@angular/forms";
 
 @Injectable({
