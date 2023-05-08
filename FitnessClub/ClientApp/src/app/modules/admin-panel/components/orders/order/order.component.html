@@ -1,0 +1,8 @@
+<td>{{order?.user?.firstName}} {{order?.user?.lastName}}</td>
+<td>{{order?.subscription?.title}}</td>
+<td>{{order?.purchaseDate}}</td>
+<td>{{order?.price | currency}}</td>
+<td>{{order?.daysAmount}}</td>
+<td class="space-x-2">
+    <img *ngIf="isAllowedToCancel" (click)="deleteOrder()" class="h-5 inline-block mx-auto hover:cursor-pointer" src="assets/icons/cancel_icon.svg" alt="" />
+</td>
