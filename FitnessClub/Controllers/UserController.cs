@@ -67,5 +67,16 @@ namespace FitnessClub.Controllers
             await _context.SaveChangesAsync();
             return Ok();
         }
+
+        [HttpGet("GetUsers")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetUsers()
+        {
+            List<User> users = await _context.Users
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(users);
+        }
     }
 }
