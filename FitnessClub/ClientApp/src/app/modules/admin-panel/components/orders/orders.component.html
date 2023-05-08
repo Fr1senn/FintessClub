@@ -1,0 +1,78 @@
+<h3 (click)="newOrder.showModal()" class="m-3 flex items-center hover:cursor-pointer">
+  <img class="h-5" src="assets/icons/add_icon.svg" alt="Alternate Text" />
+  <span class="underline">Add New Order</span>
+</h3>
+<div class="w-full m-3 flex">
+  <div class="w-3/4">
+    <table class="border w-full mx-auto">
+      <thead>
+        <tr style="background-color: var(--primary-color)">
+          <th>User</th>
+          <th>Subscription</th>
+          <th>Purchase Date</th>
+          <th>Price</th>
+          <th>Days Amount</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr app-order *ngFor="let order of orders" [order]="order" (removeEvent)="removeOrder(order?.id!)" class="text-center">
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="w-1/4">
+    <div class="flex space-x-1 px-2 justify-center items-end">
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">From: </label>
+        <input [(ngModel)]="ordersDateFrom" type="date">
+      </div>
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">Till: </label>
+        <input [(ngModel)]="ordersDateTill" type="date">
+      </div>
+      <img (click)="getOrdersFromTill()" class="h-6 mb-0.5 hover:cursor-pointer" src="assets/icons/search_icon.svg">
+      <img (click)="getOrders();ordersDateFrom='';ordersDateTill=''" class="h-6 mb-0.5 hover:cursor-pointer"
+           src="assets/icons/cancel_icon.svg">
+    </div>
+    <div class="flex flex-col px-2">
+      <label class="font-medium text-lg">By User:</label>
+      <div class="flex">
+        <select [(ngModel)]="userName" class="w-10/12">
+          <option *ngFor="let user of getUniqueUsers()">{{user.user?.firstName}} {{user.user?.lastName}}</option>
+        </select>
+        <div class="w-1/12">
+          <img (click)="getOrdersByUser()" class="hover:cursor-pointer" src="assets/icons/search_icon.svg" alt="" />
+        </div>
+        <div class="w-1/12">
+          <img (click)="getOrders()" class="hover:cursor-pointer" src="assets/icons/cancel_icon.svg" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<dialog #newOrder class="fixed top-1/3 left-1/3 h-1/3 w-1/3 border border-2 rounded rounder-lg overflow-auto" style="border-color: var(--primary-color); transform: translate(-50%, -50%); background-color: var(--background-color)">
+  <div class="flex justify-end sticky top-0">
+    <button class="text-2xl" (click)="newOrder.close()">&times;</button>
+  </div>
+  <div class="flex flex-col items-center space-y-2">
+    <div class="w-3/4 flex flex-col">
+      <label class="text-lg font-medium">Select User:</label>
+      <select [(ngModel)]="newOrderData.userName">
+        <option *ngFor="let user of users">{{user.firstName}} {{user.lastName}}</option>
+      </select>
+    </div>
+    <div class="w-3/4 flex flex-col">
+      <label class="text-lg font-medium">Select Subscription:</label>
+      <select [(ngModel)]="newOrderData.subscriptionTitle">
+        <option *ngFor="let subscription of subscriptions">{{subscription.title}}</option>
+      </select>
+    </div>
+    <div class="w-3/4 flex flex-col">
+      <label class="text-lg font-medium">Enter amount of days:</label>
+      <input [(ngModel)]="newOrderData.daysAmount" type="number" min="1" />
+    </div>
+    <button (click)="buySubscription();newOrder.close()" class="w-3/4 font-medium text-lg border-2 rounded" style="border-color: var(--primary-color); background-color: var(--primary-color); color: var(--background-color)">Buy</button>
+  </div>
+</dialog>
