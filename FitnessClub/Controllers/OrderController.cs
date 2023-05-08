@@ -109,5 +109,17 @@ namespace FitnessClub.Controllers
 
             return Ok(orders);
         }
+
+        [HttpDelete("DeleteOrder")]
+        public async Task<IActionResult> DeleteOrder([FromQuery] int orderId)
+        {
+            Order? order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderId);
+            if (order is null) return BadRequest();
+
+            _context.Orders.Remove(order);
+            await _context.SaveChangesAsync();
+
+            return Ok(order);
+        }
     }
 }
