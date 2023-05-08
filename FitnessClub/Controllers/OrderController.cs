@@ -74,5 +74,22 @@ namespace FitnessClub.Controllers
 
             return Ok(orders);
         }
+
+        [HttpGet("GetOrdersFromTill")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetAttendanceFromTill([FromQuery] DateOnly? ordersDateFrom, [FromQuery] DateOnly? ordersDateTill)
+        {
+            ordersDateFrom ??= DateOnly.MinValue;
+            ordersDateTill ??= DateOnly.MaxValue;
+
+            List<Order> orders = await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.Subscription)
+                .Where(o => o.PurchaseDate >= ordersDateFrom && o.PurchaseDate <= ordersDateTill)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(orders);
+        }
     }
 }
