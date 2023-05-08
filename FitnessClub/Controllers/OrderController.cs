@@ -91,5 +91,23 @@ namespace FitnessClub.Controllers
 
             return Ok(orders);
         }
+
+        [HttpGet("GetOrdersByUser")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetOrdersByUser([FromQuery] string userFirstName, [FromQuery] string userLastName)
+        {
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == userFirstName && u.LastName == userLastName);
+
+            if (user is null) return BadRequest();
+
+            List<Order> orders = await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.Subscription)
+                .Where(o => o.User == user)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(orders);
+        }
     }
 }
