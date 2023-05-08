@@ -32,4 +32,8 @@ export class UserService {
       responseType: "text" as "json"
     });
   }
+
+  public getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl + '/User/GetUsers');
+  }
 }
