@@ -8,6 +8,8 @@ import { FormsModule } from "@angular/forms";
 import { SubscriptionsComponent } from './components/subscriptions/subscriptions.component';
 import { SubscriptionComponent } from './components/subscriptions/subscription/subscription.component';
 import { StaffOnlyGuard } from '../../guards/staff-only.guard';
+import { OrdersComponent } from './components/orders/orders.component';
+import { OrderComponent } from './components/orders/order/order.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { StaffOnlyGuard } from '../../guards/staff-only.guard';
     AdminPanelComponent,
     AttendanceComponent,
     SubscriptionsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    OrdersComponent,
+    OrderComponent
   ],
   imports: [
     CommonModule,
@@ -25,7 +29,8 @@ import { StaffOnlyGuard } from '../../guards/staff-only.guard';
         children: [
           { path: '', redirectTo: 'Attendance', pathMatch: 'full' },
           { path: 'Attendance', component: AttendanceComponent },
-          { path: 'Subscriptions', component: SubscriptionsComponent }
+          { path: 'Subscriptions', component: SubscriptionsComponent },
+          { path: 'Orders', component: OrdersComponent }
         ]
       }
     ]),
@@ -35,7 +40,9 @@ import { StaffOnlyGuard } from '../../guards/staff-only.guard';
     AdminPanelComponent,
     AttendanceComponent,
     SubscriptionsComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    OrdersComponent,
+    OrderComponent
   ]
 })
 export class AdminPanelModule {
