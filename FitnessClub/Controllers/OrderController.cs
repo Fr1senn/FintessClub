@@ -61,5 +61,18 @@ namespace FitnessClub.Controllers
 
             return Ok();
         }
+
+        [HttpGet("GetOrders")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetOrders()
+        {
+            List<Order> orders = await _context.Orders
+                .Include(o => o.User)
+                .Include(o => o.Subscription)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(orders);
+        }
     }
 }
