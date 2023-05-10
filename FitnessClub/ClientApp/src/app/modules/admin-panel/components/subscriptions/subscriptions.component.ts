@@ -9,6 +9,13 @@ import { SubscriptionService } from '../../../../services/subscription.service';
 })
 export class SubscriptionsComponent implements OnInit {
   public subscriptions: Subscription[] = [];
+  public newSubscriptionData = {
+    title: '',
+    pricePerDay: 0.1,
+    isCreateDiscount: false,
+    discountPercentage: 1,
+    isDiscountActive: false
+  };
 
   private readonly subscriptionService: SubscriptionService;
 
@@ -26,4 +33,9 @@ export class SubscriptionsComponent implements OnInit {
     });
   }
 
+  public createSubscription() {
+    this.subscriptionService.createSubscription(this.newSubscriptionData).subscribe(() => {
+      window.location.reload();
+    });
+  }
 }
