@@ -30,4 +30,8 @@ export class SubscriptionService {
   public updateSubscription(subscription: Object): Observable<Subscription> {
     return this.http.post<Subscription>(this.apiUrl + '/Subscription/UpdateSubscription', subscription, { responseType: "text" as "json" });
   }
+
+  public createSubscription(subscription: Object) {
+    return this.http.post(this.apiUrl + '/Subscription/CreateSubscription', subscription, { responseType: "text" as "json" });
+  }
 }
