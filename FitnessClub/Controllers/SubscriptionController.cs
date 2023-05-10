@@ -105,5 +105,35 @@ namespace FitnessClub.Controllers
 
             return Ok(subscription);
         }
+
+        [HttpPost("CreateSubscription")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> CreateSubscription([FromBody] SubcriptionWithNewDiscountDTO subscriptionDTO)
+        {
+            if (subscriptionDTO is null) return BadRequest();
+            if (!ModelState.IsValid) return BadRequest();
+
+            Subscription subscription = new Subscription()
+            {
+                Title = subscriptionDTO.Title,
+                PricePerDay = subscriptionDTO.PricePerDay
+            };
+            _context.Subscriptions.Add(subscription);
+            await _context.SaveChangesAsync();
+
+            if (subscriptionDTO.IsCreateDiscount)
+            {
+                Discount discount = new Discount()
+                {
+                    IsActive = subscriptionDTO.IsActive ?? false,
+                    DiscountPercentage = subscriptionDTO.DiscountPercentage ?? 1m,
+                    SubscriptionId = subscription.Id
+                };
+                _context.Discounts.Add(discount);
+                await _context.SaveChangesAsync();
+            }
+
+            return Ok();
+        }
     }
 }
