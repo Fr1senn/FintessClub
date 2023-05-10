@@ -1,5 +1,6 @@
 ﻿using FitnessClub.Models;
 using FitnessClub.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -69,7 +70,7 @@ namespace FitnessClub.Controllers
             {
                 subscription.PricePerDay = (decimal)subscriptionDTO.PricePerDay;
             }
-            
+
             if (subscription.Discounts.Count == 0)
             {
                 if (subscriptionDTO.DiscountPercentage is not null && subscriptionDTO.IsActive is not null)
