@@ -13,12 +13,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let order of orders">
-      <td class="text-center">{{order.purchaseDate}}</td>
-      <td class="text-center">{{order.daysAmount}}</td>
-      <td class="text-center">{{order.subscription?.title}}</td>
-      <td class="text-center">{{order.price | currency}}</td>
-      <td class="text-center">{{calculateDaysLeft(order.purchaseDate, order.daysAmount)}}</td>
+    <tr *ngFor="let order of orders" class="text-center">
+      <td>{{order.purchaseDate}}</td>
+      <td>{{order.daysAmount}}</td>
+      <td>{{order.subscription?.title}}</td>
+      <td>{{order.price | currency}}</td>
+      <td *ngIf="calculateDaysLeft(order.purchaseDate, order.daysAmount) >= 0; else expired">{{calculateDaysLeft(order.purchaseDate, order.daysAmount)}}</td>
+      <ng-template #expired>
+        <td>Expired</td>
+      </ng-template>
     </tr>
     </tbody>
   </table>
