@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Order } from '../../../../models/order';
 import { Subscription } from '../../../../models/subscription';
 import { User } from '../../../../models/user';
@@ -28,13 +27,11 @@ export class OrdersComponent implements OnInit {
   private readonly orderService: OrderService;
   private readonly userService: UserService;
   private readonly subscriptionService: SubscriptionService;
-  private readonly router: Router;
 
-  constructor(orderService: OrderService, userService: UserService, subscriptionService: SubscriptionService, router: Router) {
+  constructor(orderService: OrderService, userService: UserService, subscriptionService: SubscriptionService) {
     this.orderService = orderService;
     this.userService = userService;
     this.subscriptionService = subscriptionService;
-    this.router = router;
   }
 
   ngOnInit(): void {
