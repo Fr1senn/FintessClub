@@ -10,6 +10,8 @@ import { SubscriptionComponent } from './components/subscriptions/subscription/s
 import { StaffOnlyGuard } from '../../guards/staff-only.guard';
 import { OrdersComponent } from './components/orders/orders.component';
 import { OrderComponent } from './components/orders/order/order.component';
+import { UsersComponent } from './components/users/users.component';
+import { UserComponent } from './components/users/user/user.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { OrderComponent } from './components/orders/order/order.component';
     SubscriptionsComponent,
     SubscriptionComponent,
     OrdersComponent,
-    OrderComponent
+    OrderComponent,
+    UsersComponent,
+    UserComponent
   ],
   imports: [
     CommonModule,
@@ -30,7 +34,8 @@ import { OrderComponent } from './components/orders/order/order.component';
           { path: '', redirectTo: 'Attendance', pathMatch: 'full' },
           { path: 'Attendance', component: AttendanceComponent },
           { path: 'Subscriptions', component: SubscriptionsComponent },
-          { path: 'Orders', component: OrdersComponent }
+          { path: 'Orders', component: OrdersComponent },
+          { path: 'Users', component: UsersComponent }
         ]
       }
     ]),
@@ -42,7 +47,9 @@ import { OrderComponent } from './components/orders/order/order.component';
     SubscriptionsComponent,
     SubscriptionComponent,
     OrdersComponent,
-    OrderComponent
+    OrderComponent,
+    UsersComponent,
+    UserComponent
   ]
 })
 export class AdminPanelModule {
