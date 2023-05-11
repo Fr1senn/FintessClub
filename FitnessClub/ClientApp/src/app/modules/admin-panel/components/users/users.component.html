@@ -1,0 +1,56 @@
+<div class="w-full m-3 flex">
+  <div class="w-3/4">
+    <table class="border w-full mx-auto">
+      <thead>
+        <tr style="background-color: var(--primary-color)">
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Birth Date</th>
+          <th>Registration Date</th>
+          <th>Role</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr app-user *ngFor="let user of users" [user]="user" class="text-center">
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="w-1/4">
+    <h3 class="px-2 text-lg font-medium">Birth Date:</h3>
+    <div class="flex space-x-1 px-2 mb-1 justify-center items-end">
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">From: </label>
+        <input [(ngModel)]="birthDateFrom" type="date">
+      </div>
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">Till: </label>
+        <input [(ngModel)]="birthDateTill" type="date">
+      </div>
+      <img (click)="getUsersByBirthDateFromTill()" class="h-6 mb-0.5 hover:cursor-pointer" src="assets/icons/search_icon.svg">
+      <img (click)="getUsers();birthDateFrom='';birthDateTill=''" class="h-6 mb-0.5 hover:cursor-pointer"
+           src="assets/icons/cancel_icon.svg">
+    </div>
+    <h3 class="px-2 text-lg font-medium">Registration Date:</h3>
+    <div class="flex space-x-1 px-2 justify-center items-end">
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">From: </label>
+        <input [(ngModel)]="registrationDateFrom" type="date">
+      </div>
+      <div class="flex flex-col justify-end w-2/5">
+        <label class="font-medium text-lg">Till: </label>
+        <input [(ngModel)]="registrationDateTill" type="date">
+      </div>
+      <img (click)="getUsersByRegistrationDateFromTill()" class="h-6 mb-0.5 hover:cursor-pointer" src="assets/icons/search_icon.svg">
+      <img (click)="getUsers();registrationDateFrom='';registrationDateTill=''" class="h-6 mb-0.5 hover:cursor-pointer"
+           src="assets/icons/cancel_icon.svg">
+    </div>
+    <div class="flex items-center m-2 space-x-1">
+      <input [(ngModel)]="userEmail" class="w-full border-2 rounded-full px-2" style="border-color: var(--primary-color)" type="text" placeholder="Search by email..." />
+      <img (click)="getUsersByEmail()" class="h-6 mb-0.5 hover:cursor-pointer" src="assets/icons/search_icon.svg">
+      <img (click)="getUsers();userEmail=''" class="h-6 mb-0.5 hover:cursor-pointer" src="assets/icons/cancel_icon.svg">
+    </div>
+  </div>
+</div>
