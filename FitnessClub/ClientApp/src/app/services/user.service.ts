@@ -36,4 +36,30 @@ export class UserService {
   public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl + '/User/GetUsers');
   }
+
+  public getUsersByBirthDateFromTill(birthDateFrom: string, birthDateTill: string): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl + '/User/GetUsersByBirthDateFromTill', {
+      params: {
+        'birthDateFrom': birthDateFrom,
+        'birthDateTill': birthDateTill
+      }
+    });
+  }
+
+  public getUsersByRegistrationDateFromTill(registrationDateFrom: string, registrationDateTill: string): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl + '/User/GetUsersByRegistrationDateFromTill', {
+      params: {
+        'registrationDateFrom': registrationDateFrom,
+        'registrationDateTill': registrationDateTill
+      }
+    });
+  }
+
+  public getUsersByEmail(userEmail: string): Observable<User[]> {
+    return this.http.get<User[]>(this.apiUrl + '/User/GetUsersByEmail', {
+      params: {
+        'userEmail': userEmail
+      }
+    });
+  }
 }
