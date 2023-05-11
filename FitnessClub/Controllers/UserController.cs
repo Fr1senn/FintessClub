@@ -73,6 +73,54 @@ namespace FitnessClub.Controllers
         public async Task<IActionResult> GetUsers()
         {
             List<User> users = await _context.Users
+                .Include(u => u.Role)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
+        [HttpGet("GetUsersByBirthDateFromTill")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetUsersByBirthDateFromTill([FromQuery] DateOnly? birthDateFrom, [FromQuery] DateOnly? birthDateTill)
+        {
+            birthDateFrom ??= DateOnly.MinValue;
+            birthDateTill ??= DateOnly.MaxValue;
+
+            List<User> users = await _context.Users
+                .Include(u => u.Role)
+                .Where(u => u.BirthDate >= birthDateFrom && u.BirthDate <= birthDateTill)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
+        [HttpGet("GetUsersByRegistrationDateFromTill")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetUsersByRegistrationDateFromTill([FromQuery] DateOnly? registrationDateFrom, [FromQuery] DateOnly? registrationDateTill)
+        {
+            registrationDateFrom ??= DateOnly.MinValue;
+            registrationDateTill ??= DateOnly.MaxValue;
+
+            List<User> users = await _context.Users
+                .Include(u => u.Role)
+                .Where(u => u.RegistrationDate >= registrationDateFrom && u.RegistrationDate <= registrationDateTill)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
+        [HttpGet("GetUsersByEmail")]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> GetUsersByEmail([FromQuery] string userEmail)
+        {
+            if (string.IsNullOrEmpty(userEmail)) return BadRequest();
+
+            List<User> users = await _context.Users
+                .Include(u => u.Role)
+                .Where(u => u.Email.Contains(userEmail))
                 .AsNoTracking()
                 .ToListAsync();
 
