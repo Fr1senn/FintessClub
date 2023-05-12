@@ -62,4 +62,12 @@ export class UserService {
       }
     });
   }
+
+  public deleteUser(userId: number) {
+    return this.http.delete(this.apiUrl + '/User/DeleteUser', {
+      params: {
+        'userId': userId
+      }
+    });
+  }
 }
