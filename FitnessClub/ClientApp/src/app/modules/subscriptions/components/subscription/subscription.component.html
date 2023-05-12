@@ -11,8 +11,9 @@
           </ng-template>
         </ng-container>
       </div>
-      <p (click)="reviews.showModal()" class="text-sm text-gray-500 hover:cursor-pointer">(<span
-        class="underline">{{subscription?.reviews?.length}} reviews</span>)</p>
+      <p (click)="reviews.showModal()" class="text-sm text-gray-500 hover:cursor-pointer">
+        (<span class="underline">{{subscription?.reviews?.length}} reviews</span>)
+      </p>
     </div>
   </div>
   <div class="flex items-center justify-between mx-2">
@@ -54,18 +55,30 @@
 </div>
 
 <dialog #reviews (keydown.escape)="reviews.close()"
-        class="fixed top-1/2 left-1/2 h-1/2 w-1/2 border border-2 rounded rounder-lg overflow-auto"
+        class="fixed top-1/3 left-1/3 h-1/3 w-1/3 border border-2 rounded rounder-lg overflow-auto"
         style="border-color: var(--primary-color); transform: translate(-50%, -50%); background-color: var(--background-color)">
   <div class="flex justify-end sticky top-0">
     <button class="text-2xl" (click)="reviews.close()">&times;</button>
   </div>
+  <div *ngIf="isUserAuthenticated" class="my-2">
+    <p *ngFor="let error of errors" class="text-red-500 font-medium text-center">{{error}}</p>
+    <textarea [(ngModel)]="newReviewData.reviewText" class="w-full border-2 rounded" style="border-color: var(--primary-color)" placeholder="Enter a review..."></textarea>
+    <div class="flex items-center justify-between">
+      <div class="space-x-2 flex items-center">
+        <label class="text-lg font-medium">Choose subscription rating:</label>
+        <select [(ngModel)]="newReviewData.estimation">
+          <option *ngFor="let item of [].constructor(5);index as i">{{i+1}}</option>
+        </select>
+      </div>
+      <button (click)="createReview()" class="border-2 text-lg font-medium p-0.5 rounded duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
+              style="border-color: var(--primary-color)">
+        Send
+      </button>
+    </div>
+  </div>
   <div *ngFor="let review of subscription?.reviews" class="w-3/4 mx-auto border border-2 my-2 flex rounded  p-1"
        style="border-color: var(--primary-color)">
-    <div class="w-1/4 flex justify-center">
-      <img class="w-24 h-24 rounder rounded-[50%]"
-           src="https://cdn1.iconfinder.com/data/icons/user-avatar-20/64/18-man-256.png" alt="">
-    </div>
-    <div class="w-3/4">
+    <div class="w-full">
       <h3 class="text-lg font-medium">{{review.user?.firstName}} {{review.user?.lastName}}</h3>
       <p class="text-xs italic">Since {{review.user?.registrationDate}}</p>
       <p>{{review.reviewText}}</p>
@@ -84,17 +97,21 @@
   </div>
   <div class="flex justify-center w-1/2 mx-auto">
     <button (click)="increaseDaysBy(-5)" class="p-1 rounded-l border-r-2 border-black font-medium text-lg"
-            style="background-color: var(--primary-color)">-5
+            style="background-color: var(--primary-color)">
+      -5
     </button>
-    <button (click)="increaseDaysBy(-1)" class="p-1 font-medium" style="background-color: var(--primary-color)">-1
+    <button (click)="increaseDaysBy(-1)" class="p-1 font-medium" style="background-color: var(--primary-color)">
+      -1
     </button>
     <input [(ngModel)]="subscriptionDuration" class="w-2/5 text-center border border-2 mx-0.5 rounded"
            style="background-color: var(--background-color); border-color: var(--primary-color)" type="number"
            min="1">
-    <button (click)="increaseDaysBy(1)" class="p-1 font-medium" style="background-color: var(--primary-color)">+1
+    <button (click)="increaseDaysBy(1)" class="p-1 font-medium" style="background-color: var(--primary-color)">
+      +1
     </button>
     <button (click)="increaseDaysBy(5)" class="p-1 rounded-r border-l-2 border-black font-medium"
-            style="background-color: var(--primary-color)">+5
+            style="background-color: var(--primary-color)">
+      +5
     </button>
   </div>
   <div class="1/2 mx-auto my-2">
@@ -119,27 +136,33 @@
   <div class="flex flex-col">
     <div class="flex justify-center w-1/2 mx-auto">
       <button (click)="increaseDaysBy(-5)" class="p-1 rounded-l border-r-2 border-black font-medium text-lg"
-              style="background-color: var(--primary-color)">-5
+              style="background-color: var(--primary-color)">
+        -5
       </button>
-      <button (click)="increaseDaysBy(-1)" class="p-1 font-medium" style="background-color: var(--primary-color)">-1
+      <button (click)="increaseDaysBy(-1)" class="p-1 font-medium" style="background-color: var(--primary-color)">
+        -1
       </button>
       <input [(ngModel)]="subscriptionDuration" class="w-2/5 text-center border border-2 mx-0.5 rounded"
              style="background-color: var(--background-color); border-color: var(--primary-color)" type="number"
              min="1">
-      <button (click)="increaseDaysBy(1)" class="p-1 font-medium" style="background-color: var(--primary-color)">+1
+      <button (click)="increaseDaysBy(1)" class="p-1 font-medium" style="background-color: var(--primary-color)">
+        +1
       </button>
       <button (click)="increaseDaysBy(5)" class="p-1 rounded-r border-l-2 border-black font-medium"
-              style="background-color: var(--primary-color)">+5
+              style="background-color: var(--primary-color)">
+        +5
       </button>
     </div>
     <div class="flex items-center justify-evenly w-1/4 mx-auto my-3 space-x-3">
       <button (click)="wishlistDaysAmount.close()"
               class="border-2 w-full text-lg font-medium p-0.5 rounded duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
-              style="border-color: var(--primary-color)">Cancel
+              style="border-color: var(--primary-color)">
+        Cancel
       </button>
       <button (click)="toggleWishlistItem(); wishlistDaysAmount.close()"
               class="border-2 w-full text-lg font-medium p-0.5 rounded duration-200 bg-[#d4b07f] text-[#f8efec] hover:bg-[#f8efec] hover:text-[#d4b07f]"
-              style="border-color: var(--primary-color)">Submit
+              style="border-color: var(--primary-color)">
+        Submit
       </button>
     </div>
   </div>
