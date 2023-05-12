@@ -1,12 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Subscription} from "../../../../models/subscription";
-import {Discount} from "../../../../models/discount";
-import {AuthService} from "../../../../services/auth.service";
-import {UserService} from "../../../../services/user.service";
-import {WishlistService} from 'src/app/services/wishlist.service';
-import {OrderService} from 'src/app/services/order.service';
-import {Router} from '@angular/router';
-import {Order} from "../../../../models/order";
+import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from "../../../../models/subscription";
+import { Discount } from "../../../../models/discount";
+import { AuthService } from "../../../../services/auth.service";
+import { UserService } from "../../../../services/user.service";
+import { WishlistService } from 'src/app/services/wishlist.service';
+import { OrderService } from 'src/app/services/order.service';
+import { Router } from '@angular/router';
+import { Order } from "../../../../models/order";
+import { ReviewService } from '../../../../services/review.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-subscription',
@@ -18,27 +20,41 @@ export class SubscriptionComponent implements OnInit {
   public subscriptionDuration: number = 1;
   public isInWishlist: boolean = false;
   public isAllowedToBuy: boolean | undefined;
+  public errors: any;
+  public newReviewData = {
+    reviewText: '',
+    estimation: 1,
+    subscriptionId: 0
+  }
 
   private userId: number | undefined;
   private readonly authService: AuthService;
   private readonly userService: UserService;
   private readonly wishlistService: WishlistService;
   private readonly orderService: OrderService;
+  private readonly reviewService: ReviewService;
   private readonly router: Router;
 
   public get isUserAuthenticated() {
     return this.authService.isUserAuthenticated();
   }
 
-  constructor(authService: AuthService, userService: UserService, wishlistService: WishlistService, orderService: OrderService, router: Router) {
+  constructor(
+    authService: AuthService,
+    userService: UserService,
+    wishlistService: WishlistService,
+    orderService: OrderService,
+    reviewService: ReviewService,
+    router: Router) {
     this.authService = authService;
     this.userService = userService;
     this.wishlistService = wishlistService;
     this.orderService = orderService;
+    this.reviewService = reviewService;
     this.router = router;
     this.isAllowedToBuy = this.isUserAuthenticated;
 
-    if (this.isUserAuthenticated)
+    if (this.isUserAuthenticated) {
       this.userService.currentUser.subscribe(user => {
         this.userId = user.id;
         user.orders.forEach((order: Order) => {
@@ -47,12 +63,14 @@ export class SubscriptionComponent implements OnInit {
             let expirationDate: Date = new Date(new Date(order.purchaseDate).getTime() + (1000 * 60 * 60 * 24 * order.daysAmount));
             this.isAllowedToBuy = currentDate >= expirationDate;
           }
-        })
+        });
       });
+    }
   }
 
   ngOnInit(): void {
     this.checkIfInWishlist();
+    this.newReviewData.subscriptionId = this.subscription?.id!;
   }
 
   public calculateDiscountPrice(): number | undefined {
@@ -99,6 +117,16 @@ export class SubscriptionComponent implements OnInit {
     }
 
     this.orderService.buySubscription(orderData).subscribe(() => this.isInWishlist = false);
+  }
+
+  public createReview() {
+    this.reviewService.create(this.newReviewData).subscribe(
+      () => {
+        window.location.reload();
+      },
+      (error: HttpErrorResponse) => {
+        this.errors = Object.values(JSON.parse(error.error).errors);
+      });
   }
 
   private checkIfInWishlist(): void {
