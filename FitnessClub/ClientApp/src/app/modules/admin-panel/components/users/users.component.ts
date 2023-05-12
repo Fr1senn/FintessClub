@@ -48,4 +48,8 @@ export class UsersComponent implements OnInit {
       this.users = Object.values(data);
     });
   }
+
+  public removeUser(userId: number) {
+    this.users = this.users.filter(user => user.id !== userId);
+  }
 }
