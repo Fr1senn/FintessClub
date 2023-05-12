@@ -57,13 +57,13 @@ namespace FitnessClub.Controllers
             if (user is not null)
                 if (user.Email == updateCredentialsModel.Email)
                     return BadRequest("The user with such email is already exists");
-            
+
             user = currentUserCredentials;
             user!.Email = updateCredentialsModel.Email;
-            
+
             if (!String.IsNullOrEmpty(updateCredentialsModel.Password))
                 user!.Password = BCrypt.Net.BCrypt.HashPassword(updateCredentialsModel.Password);
-            
+
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -135,13 +135,17 @@ namespace FitnessClub.Controllers
                 .Include(u => u.Wishlists)
                 .Include(u => u.Orders)
                 .Include(u => u.Attendances)
-                .Include(u => u.Role)
                 .Include(u => u.TrainingSchedules)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user is null) return BadRequest();
 
+            _context.Reviews.RemoveRange(user.Reviews);
+            _context.Wishlists.RemoveRange(user.Wishlists);
+            _context.Orders.RemoveRange(user.Orders);
+            _context.Attendances.RemoveRange(user.Attendances);
+            _context.TrainingSchedules.RemoveRange(user.TrainingSchedules);
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return NoContent();
