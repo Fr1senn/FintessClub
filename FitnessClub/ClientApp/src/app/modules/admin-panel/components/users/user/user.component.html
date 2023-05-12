@@ -6,7 +6,6 @@
 <td>{{user?.role?.title}}</td>
 <td>
   <div class="space-x-2">
-    <img class="h-5 inline-block mx-auto hover:cursor-pointer" src="assets/icons/edit_icon.svg" alt="" />
-    <img class="h-5 inline-block mx-auto hover:cursor-pointer" src="assets/icons/cancel_icon.svg" alt="" />
+    <img (click)="deleteUser()" class="h-5 inline-block mx-auto hover:cursor-pointer" src="assets/icons/cancel_icon.svg" alt="" />
   </div>
 </td>
