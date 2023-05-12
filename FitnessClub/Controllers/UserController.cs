@@ -126,5 +126,25 @@ namespace FitnessClub.Controllers
 
             return Ok(users);
         }
+
+        [HttpDelete("DeleteUser")]
+        public async Task<IActionResult> DeleteUser([FromQuery] int userId)
+        {
+            User? user = await _context.Users
+                .Include(u => u.Reviews)
+                .Include(u => u.Wishlists)
+                .Include(u => u.Orders)
+                .Include(u => u.Attendances)
+                .Include(u => u.Role)
+                .Include(u => u.TrainingSchedules)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user is null) return BadRequest();
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }
