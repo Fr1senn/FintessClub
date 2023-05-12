@@ -25,4 +25,8 @@ export class ReviewService {
   public delete(id: number) {
     return this.http.delete(this.apiUrl + '/Review/Delete', { body: id, responseType: "text" as "json" });
   }
+
+  public create(reviewData: Object) {
+    return this.http.post(this.apiUrl + '/Review/Create', reviewData, { responseType: "text" as "json" });
+  }
 }
