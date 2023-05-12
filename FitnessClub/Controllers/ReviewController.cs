@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitnessClub.Models;
+using FitnessClub.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -49,6 +50,26 @@ namespace FitnessClub.Controllers
             _context.Reviews.Remove(review);
             await _context.SaveChangesAsync();
             return Ok("Review has been successfully deleted");
+        }
+
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateReview([FromBody] ReviewDTO reviewDTO)
+        {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
+            int userId = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
+
+            Review review = new Review()
+            {
+                ReviewText = reviewDTO.ReviewText,
+                UserId = userId,
+                SubscriptionId = reviewDTO.SubscriptionId,
+                Estimation = reviewDTO.Estimation
+            };
+
+            _context.Reviews.Add(review);
+            await _context.SaveChangesAsync();
+            return Ok();
         }
     }
 }
