@@ -22,6 +22,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("BuySubscription")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> BuySubscription([FromBody] OrderDTO orderData)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -63,7 +64,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetOrders")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> GetOrders()
         {
             List<Order> orders = await _context.Orders
@@ -76,7 +77,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetOrdersFromTill")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> GetAttendanceFromTill([FromQuery] DateOnly? ordersDateFrom, [FromQuery] DateOnly? ordersDateTill)
         {
             ordersDateFrom ??= DateOnly.MinValue;
@@ -93,7 +94,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetOrdersByUser")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> GetOrdersByUser([FromQuery] string userFirstName, [FromQuery] string userLastName)
         {
             User? user = await _context.Users.FirstOrDefaultAsync(u => u.FirstName == userFirstName && u.LastName == userLastName);
@@ -111,6 +112,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpDelete("DeleteOrder")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> DeleteOrder([FromQuery] int orderId)
         {
             Order? order = await _context.Orders.FirstOrDefaultAsync(o => o.Id == orderId);

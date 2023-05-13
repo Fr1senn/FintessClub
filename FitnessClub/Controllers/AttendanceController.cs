@@ -9,7 +9,7 @@ namespace FitnessClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "admin")]
+    [Authorize(Roles = "admin, manager")]
     public class AttendanceController : ControllerBase
     {
         private readonly FitnessClubContext _context;

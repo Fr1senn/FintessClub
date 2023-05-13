@@ -53,6 +53,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("UpdateSubscription")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateSubscription([FromBody] SubscriptionDTO subscriptionDTO)
         {
             Subscription? subscription = await _context.Subscriptions

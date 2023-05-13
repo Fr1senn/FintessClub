@@ -69,7 +69,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetUsers")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> GetUsers()
         {
             List<User> users = await _context.Users
@@ -81,7 +81,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetUsersByBirthDateFromTill")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> GetUsersByBirthDateFromTill([FromQuery] DateOnly? birthDateFrom, [FromQuery] DateOnly? birthDateTill)
         {
             birthDateFrom ??= DateOnly.MinValue;
@@ -97,7 +97,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetUsersByRegistrationDateFromTill")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> GetUsersByRegistrationDateFromTill([FromQuery] DateOnly? registrationDateFrom, [FromQuery] DateOnly? registrationDateTill)
         {
             registrationDateFrom ??= DateOnly.MinValue;
@@ -113,7 +113,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetUsersByEmail")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> GetUsersByEmail([FromQuery] string userEmail)
         {
             if (string.IsNullOrEmpty(userEmail)) return BadRequest();
@@ -128,6 +128,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpDelete("DeleteUser")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> DeleteUser([FromQuery] int userId)
         {
             User? user = await _context.Users
@@ -136,7 +137,6 @@ namespace FitnessClub.Controllers
                 .Include(u => u.Orders)
                 .Include(u => u.Attendances)
                 .Include(u => u.TrainingSchedules)
-                .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user is null) return BadRequest();
