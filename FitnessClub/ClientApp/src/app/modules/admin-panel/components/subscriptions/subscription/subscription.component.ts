@@ -10,6 +10,7 @@ import { SubscriptionService } from '../../../../../services/subscription.servic
 })
 export class SubscriptionComponent implements OnInit {
   @Input() public subscription: Subscription | undefined;
+  @Input() public userRole: string | undefined;
   public isEditing: boolean = false;
   public editedSubscription = {
     id: 0,

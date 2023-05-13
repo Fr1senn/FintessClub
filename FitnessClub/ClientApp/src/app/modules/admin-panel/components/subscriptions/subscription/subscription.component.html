@@ -13,7 +13,7 @@
   <td><input [(ngModel)]="editedSubscription.discountPercentage" class="text-center w-1/4" type="number" /></td>
   <td><input [(ngModel)]="editedSubscription.isActive" type="checkbox" /></td>
 </ng-template>
-<td>
+<td *ngIf="userRole === 'manager'">
   <div class="space-x-1">
     <img (click)="isEditing=!isEditing" class="h-5 inline-block mx-auto: hover:cursor-pointer" src="assets/icons/edit_icon.svg" alt="Alternate Text" />
     <img (click)="updateSubscription();isEditing=false" *ngIf="isEditing" class="h-5 inline-block mx-auto: hover:cursor-pointer" src="assets/icons/submit_icon.svg" alt="Alternate Text" />

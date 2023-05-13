@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Subscription } from '../../../../models/subscription';
 import { SubscriptionService } from '../../../../services/subscription.service';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-subscriptions',
@@ -9,6 +10,7 @@ import { SubscriptionService } from '../../../../services/subscription.service';
 })
 export class SubscriptionsComponent implements OnInit {
   public subscriptions: Subscription[] = [];
+  public userRole: string = '';
   public newSubscriptionData = {
     title: '',
     pricePerDay: 0.1,
@@ -18,13 +20,19 @@ export class SubscriptionsComponent implements OnInit {
   };
 
   private readonly subscriptionService: SubscriptionService;
+  private readonly userService: UserService;
 
-  constructor(subscriptionService: SubscriptionService) {
+  constructor(subscriptionService: SubscriptionService, userService: UserService) {
     this.subscriptionService = subscriptionService;
+    this.userService = userService;
   }
 
   ngOnInit(): void {
     this.getSubscirptions();
+
+    this.userService.currentUser.subscribe(user => {
+      this.userRole = user.role?.title!;
+    })
   }
 
   public getSubscirptions() {

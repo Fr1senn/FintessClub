@@ -30,7 +30,13 @@ export class AttendanceComponent implements OnInit {
   }
 
   public getAttendanceByUser() {
-    let userName: string[] = this.userName.split(' ');
+    let userName: string[] = [];
+    if (this.userName === '') {
+      userName[0] = this.getUniqueUsers()[0]?.user?.firstName!;
+      userName[1] = this.getUniqueUsers()[0]?.user?.lastName!;
+    } else {
+      userName = this.userName.split(' ');
+    }
     this.attendanceService.getAttendanceByUser(userName[0], userName[1]).subscribe(data => {
       this.attendance = Object.values(data);
     });

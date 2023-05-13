@@ -1,4 +1,4 @@
-<h3 (click)="newSubscription.showModal()" class="m-3 flex items-center hover:cursor-pointer">
+<h3 *ngIf="userRole === 'manager'" (click)="newSubscription.showModal()" class="m-3 flex items-center hover:cursor-pointer">
   <img class="h-5" src="assets/icons/add_icon.svg" alt="Alternate Text" />
   <span class="underline">Add New Subscription</span>
 </h3>
@@ -10,11 +10,11 @@
       <th>Rating</th>
       <th>Discount Percentage</th>
       <th>Is Active?</th>
-      <th>Action</th>
+      <th *ngIf="userRole === 'manager'">Action</th>
     </tr>
   </thead>
   <tbody>
-    <tr app-subscription *ngFor="let subscription of subscriptions" [subscription]="subscription" class="text-center border"></tr>
+    <tr app-subscription *ngFor="let subscription of subscriptions" [subscription]="subscription" [userRole]="userRole" class="text-center border"></tr>
   </tbody>
 </table>
 
