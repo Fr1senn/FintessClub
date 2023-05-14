@@ -36,4 +36,8 @@ export class AttendanceService {
       }
     });
   }
+
+  public createAttendance(userId: number) {
+    return this.http.post(this.apiUrl + '/Attendance/CreateAttendance', userId, { responseType: "text" as "json" });
+  }
 }

@@ -56,5 +56,23 @@ namespace FitnessClub.Controllers
 
             return Ok(attendance);
         }
+
+        [HttpPost("CreateAttendance")]
+        public async Task<IActionResult> CreateAttendance([FromBody] int userId)
+        {
+            User? user = await _context.Users.FindAsync(userId);
+
+            if (user is null) return BadRequest();
+
+            Attendance attendance = new Attendance()
+            {
+                UserId = userId,
+            };
+
+            _context.Attendances.Add(attendance);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
