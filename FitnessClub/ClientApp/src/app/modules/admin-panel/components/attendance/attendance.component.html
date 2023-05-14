@@ -1,4 +1,4 @@
-<h3 (click)="newAttendance.showModal()" class="m-3 flex items-center hover:cursor-pointer">
+<h3 *ngIf="userRole === 'admin'" (click)="newAttendance.showModal()" class="m-3 flex items-center hover:cursor-pointer">
   <img class="h-5" src="assets/icons/add_icon.svg" alt="Alternate Text" />
   <span class="underline">Add New Attendance</span>
 </h3>

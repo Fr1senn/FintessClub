@@ -18,6 +18,7 @@ export class AttendanceComponent implements OnInit {
   public newAttendanceDate = {
     userName: '',
   };
+  public userRole: string = '';
 
   private readonly attendanceService: AttendanceService;
   private readonly userService: UserService;
@@ -31,7 +32,10 @@ export class AttendanceComponent implements OnInit {
     this.getAttendance();
     this.userService.getUsers().subscribe(data => {
       this.users = Object.values(data);
-    })
+    });
+    this.userService.currentUser.subscribe(user => {
+      this.userRole = user.role?.title!;
+    });
   }
 
   public getAttendance() {

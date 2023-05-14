@@ -58,6 +58,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("CreateAttendance")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateAttendance([FromBody] int userId)
         {
             User? user = await _context.Users.FindAsync(userId);
