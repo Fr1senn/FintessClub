@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FitnessClub.Models;
+using FitnessClub.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -149,6 +150,23 @@ namespace FitnessClub.Controllers
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return NoContent();
+        }
+
+        [HttpPatch("UpdateUserRole")]
+        [Authorize(Roles = "manager")]
+        public async Task<IActionResult> UpdateUserRole([FromBody] UserRoleDTO userRoleDTO)
+        {
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userRoleDTO.UserId);
+            Role? role = await _context.Roles.FirstOrDefaultAsync(r => r.Id == userRoleDTO.RoleId);
+
+            if (user is null) return BadRequest();
+            if (role is null) return BadRequest();
+
+            user.RoleId = role.Id;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
