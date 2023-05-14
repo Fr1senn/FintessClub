@@ -70,4 +70,11 @@ export class UserService {
       }
     });
   }
+
+  public updateUserRole(userRoleData: Object) {
+    return this.http.patch(this.apiUrl + '/User/UpdateUserRole', userRoleData, {
+      observe: "response",
+      responseType: "text" as "json"
+    });
+  }
 }
