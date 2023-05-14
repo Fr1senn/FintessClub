@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Role } from '../../../../models/role';
 import { User } from '../../../../models/user';
+import { RoleService } from '../../../../services/role.service';
 import { UserService } from '../../../../services/user.service';
 
 @Component({
@@ -9,20 +11,30 @@ import { UserService } from '../../../../services/user.service';
 })
 export class UsersComponent implements OnInit {
   public users: User[] = [];
+  public roles: Role[] = [];
   public birthDateFrom: string = '';
   public birthDateTill: string = '';
   public registrationDateFrom: string = '';
   public registrationDateTill: string = '';
   public userEmail: string = '';
+  public userRole: string = '';
 
   private readonly userService: UserService;
+  private readonly roleService: RoleService;
 
-  constructor(userService: UserService) {
+  constructor(userService: UserService, roleService: RoleService) {
     this.userService = userService;
+    this.roleService = roleService;
   }
 
   ngOnInit(): void {
     this.getUsers();
+    this.userService.currentUser.subscribe(user => {
+      this.userRole = user.role?.title!;
+    });
+    this.roleService.getRoles().subscribe(data => {
+      this.roles = Object.values(data);
+    });
   }
 
   public getUsers() {

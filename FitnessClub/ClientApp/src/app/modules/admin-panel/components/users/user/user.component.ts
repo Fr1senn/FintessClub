@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Role } from '../../../../../models/role';
 import { User } from '../../../../../models/user';
 import { UserService } from '../../../../../services/user.service';
 
@@ -8,8 +9,15 @@ import { UserService } from '../../../../../services/user.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-  @Input() user: User | undefined;
+  @Input() public user: User | undefined;
+  @Input() public roles: Role[] | undefined;
+  @Input() public userRole: string | undefined;
   @Output() public removeEvent: any = new EventEmitter<any>();
+  public isEditing: boolean = false;
+  public newUserRoleData = {
+    userId: 0,
+    userRole: ''
+  };
 
   private readonly userService: UserService;
 
@@ -18,6 +26,8 @@ export class UserComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.newUserRoleData.userId = this.user?.id!;
+    this.newUserRoleData.userRole = this.user?.role?.title!;
   }
 
   public deleteUser() {
@@ -26,4 +36,13 @@ export class UserComponent implements OnInit {
     })
   }
 
+  public updateUserRole() {
+    let roleId = this.roles?.find(role => role.title === this.newUserRoleData.userRole)?.id;
+    this.userService.updateUserRole({
+      userId: this.newUserRoleData.userId,
+      roleId: roleId
+    }).subscribe(() => {
+      window.location.reload();
+    })
+  }
 }
