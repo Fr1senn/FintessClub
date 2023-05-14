@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Attendance } from "../../../../models/attendance";
+import { User } from '../../../../models/user';
 import { AttendanceService } from "../../../../services/attendance.service";
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-attendance',
@@ -9,18 +11,27 @@ import { AttendanceService } from "../../../../services/attendance.service";
 })
 export class AttendanceComponent implements OnInit {
   public attendance: Attendance[] = [];
+  public users: User[] = [];
   public attendanceFrom: string = '';
   public attendanceTill: string = '';
   public userName: string = '';
+  public newAttendanceDate = {
+    userName: '',
+  };
 
   private readonly attendanceService: AttendanceService;
+  private readonly userService: UserService;
 
-  constructor(attendanceService: AttendanceService) {
+  constructor(attendanceService: AttendanceService, userService: UserService) {
     this.attendanceService = attendanceService;
+    this.userService = userService;
   }
 
   ngOnInit(): void {
     this.getAttendance();
+    this.userService.getUsers().subscribe(data => {
+      this.users = Object.values(data);
+    })
   }
 
   public getAttendance() {
@@ -45,6 +56,20 @@ export class AttendanceComponent implements OnInit {
   public getAttendanceFromTill() {
     this.attendanceService.getAttendanceFromTill(this.attendanceFrom, this.attendanceTill).subscribe(data => {
       this.attendance = Object.values(data);
+    });
+  }
+
+  public createAttendance() {
+    let userName: string[] = [];
+    if (this.newAttendanceDate.userName === '') {
+      userName[0] = this.users[0]?.firstName!;
+      userName[1] = this.users[0]?.lastName!;
+    } else {
+      userName = this.newAttendanceDate.userName.split(' ');
+    }
+    let userId = this.users.find(user => user.firstName === userName[0] && user.lastName === userName[1])?.id;
+    this.attendanceService.createAttendance(userId!).subscribe(() => {
+      window.location.reload();
     });
   }
 
