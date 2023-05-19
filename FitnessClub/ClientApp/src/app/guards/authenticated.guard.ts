@@ -18,9 +18,11 @@ export class AuthenticatedGuard implements CanActivate {
     this.router = router;
     this.userService = userService;
 
-    this.userService.currentUser.subscribe(user => {
-      this.userRole = user.role?.title!;
-    });
+    if (this.authService.isUserAuthenticated()) {
+      this.userService.currentUser.subscribe(user => {
+        this.userRole = user.role?.title!;
+      });
+    }
   }
 
   canActivate(

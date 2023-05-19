@@ -26,9 +26,11 @@ export class NavigationBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.currentUser.subscribe(user => {
-      this.userRole = user.role?.title!;
-    });
+    if (this.authService.isUserAuthenticated()) {
+      this.userService.currentUser.subscribe(user => {
+        this.userRole = user.role?.title!;
+      });
+    }
   }
 
   logout(): void {
