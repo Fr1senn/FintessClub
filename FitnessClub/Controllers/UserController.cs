@@ -13,7 +13,6 @@ namespace FitnessClub.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly FitnessClubContext _context;
@@ -24,6 +23,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpGet("GetCurrentUser")]
+        [Authorize]
         public async Task<IActionResult> GetCurrentUser()
         {
             int userId = Convert.ToInt32(User.FindFirst("Id")?.Value);
@@ -45,6 +45,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPatch("UpdateUserCredentials")]
+        [Authorize]
         public async Task<IActionResult> UpdateUserCredentials([FromBody] UpdateCredentialsModel updateCredentialsModel)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -163,6 +164,23 @@ namespace FitnessClub.Controllers
             if (role is null) return BadRequest();
 
             user.RoleId = role.Id;
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("PasswordRestore")]
+        public async Task<IActionResult> PasswordRestore([FromBody] UpdateCredentialsModel updateCredentialsModel)
+        {
+            if (!ModelState.IsValid) return BadRequest();
+
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Email == updateCredentialsModel.Email);
+
+            if (user is null) return BadRequest();
+
+            if (!String.IsNullOrEmpty(updateCredentialsModel.Password))
+                user!.Password = BCrypt.Net.BCrypt.HashPassword(updateCredentialsModel.Password);
 
             await _context.SaveChangesAsync();
 
