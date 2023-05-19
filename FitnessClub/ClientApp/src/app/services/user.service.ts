@@ -77,4 +77,11 @@ export class UserService {
       responseType: "text" as "json"
     });
   }
+
+  public passwordRestore(form: FormGroup) {
+    return this.http.post(this.apiUrl + '/User/PasswordRestore', form.getRawValue(), {
+      observe: "response",
+      responseType: "text" as "json"
+    });
+  }
 }
