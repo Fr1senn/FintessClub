@@ -17,6 +17,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
 import { ProfileModule } from "./modules/profile/profile.module";
 import { AdminPanelModule } from "./modules/admin-panel/admin-panel.module";
+import { PasswordRestoreComponent } from './components/password-restore/password-restore.component';
 
 export function tokenGetter() {
   return localStorage.getItem('ACCESS_TOKEN_KEY');
@@ -28,7 +29,8 @@ export function tokenGetter() {
     NavigationBarComponent,
     FooterBarComponent,
     RegistrationComponent,
-    LoginComponent
+    LoginComponent,
+    PasswordRestoreComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
@@ -36,7 +38,8 @@ export function tokenGetter() {
     FormsModule,
     RouterModule.forRoot([
       {path: 'Registration', component: RegistrationComponent, canActivate: [AuthenticatedGuard]},
-      {path: 'Login', component: LoginComponent, canActivate: [AuthenticatedGuard]}
+      { path: 'Login', component: LoginComponent, canActivate: [AuthenticatedGuard] },
+      { path: 'PasswordRestore', component: PasswordRestoreComponent, canActivate: [AuthenticatedGuard] }
     ]),
     SubscriptionsModule,
     ProfileModule,
