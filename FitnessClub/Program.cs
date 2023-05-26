@@ -1,5 +1,6 @@
 using System.Text;
 using FitnessClub.Models;
+using FitnessClub.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +13,13 @@ builder.Services.AddControllers()
     );
 
 builder.Services.AddDbContext<FitnessClubContext>();
-    options.UseNpgsql(builder.Configuration.GetConnectionString("defaultConnection")));
+
+builder.Services.AddScoped<FitnessClubContextFilter>();
+
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(typeof(FitnessClubContextFilter));
+});
 
 
 builder.Services.AddCors(p =>
