@@ -39,10 +39,7 @@ export class SubscriptionComponent implements OnInit {
       this.editedSubscription.isActive = false;
     }
     this.subscriptionService.updateSubscription(this.editedSubscription).subscribe(() => {
-      this.subscription!.title = this.editedSubscription.title;
-      this.subscription!.pricePerDay = this.editedSubscription.pricePerDay;
-      this.subscription!.discounts.find(discount => discount.subscriptionId === this.subscription?.id)!.discountPercentage = this.editedSubscription.discountPercentage;
-      this.subscription!.discounts.find(discount => discount.subscriptionId === this.subscription?.id)!.isActive = this.editedSubscription.isActive;
+      window.location.reload();
     })
   }
 
