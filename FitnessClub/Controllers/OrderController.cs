@@ -22,7 +22,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("BuySubscription")]
-        [Authorize(Roles = "manager")]
+        [Authorize(Roles = "admin, manager")]
         public async Task<IActionResult> BuySubscription([FromBody] OrderDTO orderData)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);

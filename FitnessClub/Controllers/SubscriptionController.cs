@@ -53,7 +53,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("UpdateSubscription")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> UpdateSubscription([FromBody] SubscriptionDTO subscriptionDTO)
         {
             Subscription? subscription = await _context.Subscriptions
@@ -109,7 +109,7 @@ namespace FitnessClub.Controllers
         }
 
         [HttpPost("CreateSubscription")]
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "manager")]
         public async Task<IActionResult> CreateSubscription([FromBody] SubcriptionWithNewDiscountDTO subscriptionDTO)
         {
             if (subscriptionDTO is null) return BadRequest();
