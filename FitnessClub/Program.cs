@@ -11,7 +11,7 @@ builder.Services.AddControllers()
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
     );
 
-builder.Services.AddDbContext<FitnessClubContext>(options =>
+builder.Services.AddDbContext<FitnessClubContext>();
     options.UseNpgsql(builder.Configuration.GetConnectionString("defaultConnection")));
 
 

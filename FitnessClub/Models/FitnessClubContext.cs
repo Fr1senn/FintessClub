@@ -46,7 +46,7 @@ public partial class FitnessClubContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
-            optionsBuilder.UseNpgsql(_configuration?.GetConnectionString("defaultConnection"));
+            optionsBuilder.UseNpgsql(_configuration?.GetConnectionString("guest"));
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
