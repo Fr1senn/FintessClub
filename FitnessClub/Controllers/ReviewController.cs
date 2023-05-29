@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FitnessClub.Interfaces;
 using FitnessClub.Models;
 using FitnessClub.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
@@ -17,39 +18,45 @@ namespace FitnessClub.Controllers
     public class ReviewController : ControllerBase
     {
         private readonly FitnessClubContext _context;
+        private readonly IReviewRepository _reviewRepository;
 
-        public ReviewController(FitnessClubContext context)
+        public ReviewController(FitnessClubContext context, IReviewRepository reviewRepository)
         {
             _context = context;
+            _reviewRepository = reviewRepository;
         }
 
         [HttpPatch("Edit")]
-        public async Task<IActionResult> Edit([FromBody] Review review)
+        public async Task<IActionResult> EditReview([FromBody] Review review)
         {
-            Review? reviewFromDB = await _context.Reviews.AsNoTracking().FirstOrDefaultAsync(r => r.Id == review.Id);
-            if (reviewFromDB is null) return BadRequest("Couldn't find review");
-
-            int userId = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
-            if (review.UserId != userId) return Unauthorized("Inappropriate user");
-
-            review.ReviewDate = reviewFromDB.ReviewDate;
-
-            _context.Reviews.Update(review);
-            await _context.SaveChangesAsync();
-
-            return Ok("Review has been successfully updated");
+            try
+            {
+                int userId = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
+                await _reviewRepository.EditReview(review, userId);
+                return Ok();
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         
         [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] int id)
+        public async Task<IActionResult> DeleteReview([FromBody] int reviewId)
         {
-            Review? review = await _context.Reviews.FindAsync(id);
-
-            if (review is null) return BadRequest("Couldn't find review");
-
-            _context.Reviews.Remove(review);
-            await _context.SaveChangesAsync();
-            return Ok("Review has been successfully deleted");
+            try
+            {
+                await _reviewRepository.DeleteReview(reviewId);
+                return Ok();
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("Create")]
@@ -57,19 +64,16 @@ namespace FitnessClub.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            int userId = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
-
-            Review review = new Review()
+            try
             {
-                ReviewText = reviewDTO.ReviewText,
-                UserId = userId,
-                SubscriptionId = reviewDTO.SubscriptionId,
-                Estimation = reviewDTO.Estimation
-            };
-
-            _context.Reviews.Add(review);
-            await _context.SaveChangesAsync();
-            return Ok();
+                int userId = Convert.ToInt32(HttpContext.User.FindFirst("id")!.Value);
+                await _reviewRepository.CreateReview(reviewDTO, userId);
+                return Ok();
+            }
+            catch (NullReferenceException ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
